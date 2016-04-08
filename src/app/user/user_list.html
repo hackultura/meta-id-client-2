@@ -1,0 +1,95 @@
+<div data-ng-controller="UserController as vm" data-ng-init="vm.init()">
+	<div layout="row" layout-padding  class="cover client_cover">
+		<div layout-align="center" layout-padding flex>
+			<h1 hide-xs>Usuários</h1>
+			<h3 hide-gt-sm hide-sm>Usuários</h3>
+		</div>
+		<div layout-align="end center" hide-xs>
+			<md-button class="md-raised md-fab md-primary button_cover"
+				aria-label="Novo Usuário" data-ui-sref="admin.usuarios.novo">
+				<md-icon md-font-library="material-icons">add</md-icon>
+			</md-button>
+		</div>
+
+		<div layout-align="end center" hide-gt-sm hide-sm>
+			<md-button class="md-raised md-fab md-mini md-primary button_cover"
+				aria-label="Novo Usuário" data-ui-sref="admin.usuarios.novo">
+				<md-icon md-font-library="material-icons">add</md-icon>
+			</md-button>
+		</div>
+	</div>
+	<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+	<div class='md-padding' id="client-list" layout="column" layout-align="center">
+		<div layout="row" flex="80">
+			<md-input-container class="md-icon-float md-block" flex-gt-sm>
+				<label>Nome do Ente Artístico</label>
+				<md-icon>face</md-icon>
+				<input ng-model="vm.search.name" type="text">
+			</md-input-container>
+			<md-input-container class="md-icon-float md-block" flex-gt-sm>
+				<label>E-mail</label>
+				<md-icon>email</md-icon>
+				<input ng-model="vm.search.email" type="text">
+			</md-input-container>
+			<md-input-container class="md-icon-float md-block" flex-gt-sm>
+				<label>CPF</label>
+				<md-icon>credit_card</md-icon>
+				<input ng-model="vm.search.cpf" type="text">
+			</md-input-container>
+			<md-input-container class="md-icon-float md-block" flex-gt-sm>
+				<label>CNPJ</label>
+				<md-icon>credit_card</md-icon>
+				<input ng-model="vm.search.cnpj" type="text">
+			</md-input-container>
+		</div>
+		<md-card flex data-ng-repeat="user in vm.users.results | filter: {name: vm.search.name, email: vm.search.email, ente: {cpf: vm.search.cpf, cnpj: vm.search.cnpj}, ente: '!'}">
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline"> {{user.name}} </span>
+					<span class="md-subhead" data-ng-show="user.ente.cpf || user.ente.cnpj"><strong>CEAC: </strong> {{user.ente.ceac}}</span>
+					<span class="md-subhead"><strong>E-mail: </strong> {{user.email}}</span>
+					<span class="md-subhead" data-ng-show="{{user.ente.cpf}}"><strong>CPF: </strong> {{user.ente.cpf | brCpf }}</span>
+					<span class="md-subhead" data-ng-show="{{user.ente.cnpj}}"><strong>CNPJ: </strong> {{user.ente.cnpj | brCnpj}}</span>
+				</md-card-title-text>
+				<md-card-title-media hide-xs data-ng-show="user.ente.cpf" title="Pessoa Física">
+					<i class="material-icons md-48">face</i>
+				</md-card-title-media>
+
+				<md-card-title-media hide-xs data-ng-show="user.ente.cnpj" title="Pessoa Jurídica">
+					<i class="material-icons md-48">business</i>
+				</md-card-title-media>
+
+				<md-card-title-media hide-xs data-ng-show="user.is_admin" title="Servidor Público">
+					<i class="material-icons md-48">assignment_ind</i>
+				</md-card-title-media>
+			</md-card-title>
+			<md-card-actions layout="row" layout-align="end center">
+				<md-button class="md-button md-raised md-primary" aria-label="Editar Usuário"
+					style="margin-right: 5px;" data-ui-sref="admin.usuarios.editar({id: user.id})">
+					<md-icon md-font-library="material-icons">create</md-icon>
+					Editar Usuário
+				</md-button>
+				<md-button class="md-button md-raised md-warn" aria-label="Remover Usuário"
+					style="margin-right: 5px;" data-ng-click="vm.deleteDialog($event, user)">
+					<md-icon md-font-library="material-icons">delete</md-icon>
+					Remover Usuário
+				</md-button>
+			</md-card-actions>
+		</md-card>
+
+		<div layout="row" layout-align="center">
+			<md-button class="md-raised md-accent" aria-label="Página Anterior" type="submit"
+				title="Página Anterior" data-ng-disabled="!vm.users.previous" data-ng-click="vm.previousPage()">
+				<md-icon>fast_rewind</md-icon>
+				<span hide-xs>Anterior</span>
+				<span hide-gt-sm hide-sm>Anterior</span>
+			</md-button>
+
+			<md-button class="md-raised md-accent" aria-label="Próxima Página" type="submit"
+				title="Próxima Página" data-ng-disabled="!vm.users.next" data-ng-click="vm.nextPage()">
+				<md-icon>fast_forward</md-icon>
+				<span hide-xs>Próximo</span>
+				<span hide-gt-sm hide-sm>Próximo</span>
+			</md-button>
+		</div>
+	</div>

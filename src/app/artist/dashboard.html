@@ -1,0 +1,49 @@
+<div data-ng-controller="DashboardController as vm" data-ng-init="vm.init()">
+	<div layout="row" layout-padding  class="cover client_cover">
+		<div layout-align="center" layout-padding flex>
+			<h1 hide-xs>Minha Situação</h1>
+			<h3 hide-gt-sm hide-sm>Minha Situação</h3>
+		</div>
+		<div layout-align="end center" hide-xs>
+			<h3 class="situation" data-ng-class="{'approved': vm.statusSituation()}">
+				<md-icon md-font-library="material-icons">check_circle</md-icon> Habilitado
+			</h3>
+		</div>
+	</div>
+	<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+	<div class='md-padding' id="client-list" layout="row" layout-wrap layout-align="left">
+		<div class="md-padding" layout="row" layout-wrap layout-xs="column" layout-align="left">
+			<md-card class="proposal_box" flex flex-xs="100">
+				<md-card-title>
+					<md-card-title-text>
+						<span class="md-headline">Documentos fora da validade</span>
+					</md-card-title-text>
+					<md-card-title-media hide-xs>
+					</md-card-title-media>
+				</md-card-title>
+				<md-card-content>
+					<div class='md-padding' id="client-list" layout="column" layout-align="center">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<td>Documento</td>
+									<td>Validade</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a data-ui-sref="admin.documentos.detalhe({number: document.number})">Carteira de Habilitação</a></td>
+									<td>01/03/2016</td>
+								</tr>
+								<tr>
+									<td><a data-ui-sref="admin.documentos.detalhe({number: document.number})">Carteira do Artista</a></td>
+									<td>08/03/2016</td>
+								</tr>
+							</tbody>
+						</table>
+				</md-card-content>
+				<md-card-actions layout="row" layout-align="end center">
+				</md-card-actions>
+			</md-card>
+		</div>
+	</div>

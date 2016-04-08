@@ -1,0 +1,67 @@
+<div data-ng-controller="ProposalDetailsController as vm" data-ng-init="vm.init()">
+	<div layout="row" layout-padding  class="cover client_cover" data-ng-controller="ProposalDetailsController as vm" data-ng-init="vm.init()">
+		<div layout-align="left center" layout-padding flex>
+			<h1 hide-xs>Comprovante da Proposta (modo de visualização)</h1>
+			<h3 hide-gt-sm hide-sm>Comprovante da Proposta</h3>
+		</div>
+		<div layout-align="end" hide-xs>
+			<md-button class="md-raised md-fab md-primary button_cover" aria-label="Imprimir"
+				title="Imprimir Comprovante" data-print-btn>
+				<md-icon md-font-library="material-icons">print</md-icon>
+			</md-button>
+			<md-button class="md-raised md-fab md-primary button_cover" aria-label="Imprimir"
+				title="Imprimir Comprovante" data-ui-sref="admin.propostas">
+				<md-icon md-font-library="material-icons">arrow_back</md-icon>
+			</md-button>
+		</div>
+
+		<div layout-align="end" hide-gt-sm hide-sm>
+			<md-button class="md-raised md-fab md-mini md-accent button_cover" aria-label="Voltar"
+				title="Voltar" data-ui-sref="admin.propostas">
+				<md-icon md-font-library="material-icons md-24">arrow_back</md-icon>
+			</md-button>
+		</div>
+	</div>
+	<div data-print-section class="page_a4 page_view">
+		<div class="page_a4_content">
+			<section class="header">
+				<div class="logo"><img src="img/fac_logo.jpg" alt=""></div>
+				<div class="text">
+					<h2 class="government header_title">Governo de Brasília</h2>
+					<h2 class="secretary header_subtitle">Secretaria de Estado de Cultura</h2>
+					<h2 class="undersecretary header_subtitle">Fundo de Apoio a Cultura</h2>
+				</div>
+			</section>
+			<section class="title"><h1>Comprovante de Inscrição</h1></section>
+			<section class="body">
+				<div class="proposal_info">
+					<p><strong>Nome do Projeto: </strong>{{vm.proposal.title}}</p>
+					<p><strong>Número do Projeto: </strong>{{vm.proposal.id}}</p>
+					<p><strong>Autor: </strong>{{vm.proposal.ente_info.author}}</p>
+					<p data-ng-show="vm.proposal.ente_info.cpf"><strong>CPF: </strong>{{vm.proposal.ente_info.cpf | brCpf}}</p>
+					<p data-ng-show="vm.proposal.ente_info.cnpj"><strong>CNPJ: </strong>{{vm.proposal.ente_info.cnpj | brCnpj}}</p>
+					<p><strong>CEAC: </strong>{{vm.proposal.ente_info.ceac}}</p>
+					<p><strong>Data de envio: </strong>{{vm.proposal.sended_at | date:'dd/MM/yyyy HH:mm:ss':'-0300'}}</p>
+				</div>
+				<section class="title"><h1>Arquivos Enviados</h1></section>
+				<table class="proposal_files table table-bordered" data-ng-class="{proposal_files_padding: vm.proposal.attachments.length >= 5}">
+					<tbody>
+						<tr data-ng-repeat="attachment in vm.proposal.attachments">
+							<td>
+								<p><strong>{{attachment.filename}}</strong></p>
+								<p class="details"><strong>Tamanho: </strong> {{attachment.size}}</p>
+								<p class="details"><strong>Assinatura Digital: </strong>{{attachment.checksum}}</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<div class="footer" data-ng-class="{'footer_fixed_print footer_fixed_view': vm.proposal.attachments.length <= 3}">
+				<div class="footer_content">
+					<p>Secretaria de Estado de Cultura</p>
+					<img src="img/gdf_footer.png" alt="Governo de Brasília">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

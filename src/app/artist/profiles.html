@@ -1,0 +1,38 @@
+<div data-ng-controller="DashboardController as vm" data-ng-init="vm.init()">
+	<div layout="row" layout-padding  class="cover client_cover">
+		<div layout-align="center" layout-padding flex>
+			<h1 hide-xs>Meus Perfis</h1>
+			<h3 hide-gt-sm hide-sm>Meus Perfis</h3>
+		</div>
+		<div layout-align="end center" hide-xs>
+			<md-button class="md-raised md-fab md-primary button_cover" title="Novo Perfil" title="Novo Perfil"
+				aria-label="Novo Perfil" data-ui-sref="admin.perfis.novo">
+				<md-icon md-font-library="material-icons">add</md-icon>
+			</md-button>
+		</div>
+
+		<div layout-align="end center" hide-gt-sm hide-sm>
+			<md-button class="md-raised md-fab md-mini md-primary button_cover"
+				aria-label="Novo Perfil" data-ui-sref="admin.perfis.novo">
+				<md-icon md-font-library="material-icons">add</md-icon>
+			</md-button>
+		</div>
+	</div>
+	<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+	<md-card flex>
+		<md-card-title>
+			<md-card-title-text>
+				<span class="md-headline">Banda mais bonita da cidade</span>
+			</md-card-title-text>
+			<md-card-title-media hide-xs title="Pessoa Física">
+				<i class="material-icons md-48">account_circle</i>
+			</md-card-title-media>
+		</md-card-title>
+		<md-card-actions layout="row" layout-align="end center">
+			<md-button class="md-button md-raised md-primary" aria-label="Editar Perfil"
+				style="margin-right: 5px;" data-ui-sref="admin.perfis.editar({id: user.id})">
+				<md-icon md-font-library="material-icons">create</md-icon>
+				Editar Perfil
+			</md-button>
+		</md-card-actions>
+	</md-card>

@@ -1,0 +1,107 @@
+<div data-ng-controller="ProposalDashboardController as vm" data-ng-init="vm.init()">
+	<div layout="row" layout-padding  class="cover client_cover">
+		<div layout-align="center" layout-padding flex>
+			<h1 hide-xs>Painel Principal</h1>
+			<h3 hide-gt-sm hide-sm>Painel Printipal</h3>
+		</div>
+	</div>
+	<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+	<div class="md-padding" layout="row" layout-wrap layout-xs="column" layout-align="center">
+		<div flex class="dashboard_box counter md-whiteframe-1dp"
+			color-this="background-color" data-color="vm.dashboard">
+			<h3 class="counter">{{vm.dashboard.drafted}}</h3>
+			<h2 class="counter">Propostas Iniciadas</h2>
+		</div>
+		<div flex class="dashboard_box counter md-whiteframe-1dp"
+			color-this="background-color" data-color="vm.dashboard">
+			<h3 class="counter">{{vm.dashboard.sended}}</h3>
+			<h2 class="counter">Propostas Enviadas</h2>
+		</div>
+		<div flex class="dashboard_box md-whiteframe-1dp"
+			color-this="background-color" data-color="vm.dashboard">
+			<h3 class="counter">{{vm.dashboard.approved}}</h3>
+			<h2 class="counter">Propostas Aprovadas</h2>
+		</div>
+		<div flex class="dashboard_box md-whiteframe-1dp"
+			color-this="background-color" data-color="vm.dashboard">
+			<h3 class="counter">{{vm.dashboard.reproved}}</h3>
+			<h2 class="counter">Propostas Reprovadas</h2>
+		</div>
+		<div flex class="dashboard_box md-whiteframe-1dp"
+			color-this="background-color" data-color="vm.dashboard">
+			<h3 class="counter">{{vm.dashboard.canceled}}</h3>
+			<h2 class="counter">Propostas Canceladas</h2>
+		</div>
+	</div>
+	<div class="md-padding" layout="row" layout-wrap layout-xs="column" layout-align="center">
+		<div flex class="dashboard_box md-whiteframe-1dp">
+			<h2>Últimos Projetos Enviados</h2>
+			<h4 class="message" data-ng-show="vm.dashboard.last_sended.length < 1">
+				Nenhum projeto analisado no momento
+			</h4>
+			<table class="table" data-ng-show="vm.dashboard.last_sended.length > 0">
+				<tbody>
+					<tr data-ng-repeat="proposal_sended in vm.dashboard.last_sended">
+						<td class="proposal_detail">
+							<p>{{proposal_sended.name}}</p>
+							<p><strong>Número: </strong> {{proposal_sended.id}}</p>
+							<p><strong>CEAC: </strong> {{proposal_sended.ente_info.ceac}}</p>
+						</td>
+						<td class="action_table">
+							<md-button class="md-button md-raised md-primary" aria-label="Analisar"
+								data-ui-sref="admin.propostas.analise.detalhe({number: proposal_sended.number})"
+								style="float: right;">
+								<md-icon md-font-library="material-icons">library_books</md-icon>
+								Analisar
+							</md-button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div flex class="dashboard_box md-whiteframe-1dp">
+			<h2>Últimos Projetos Analisados</h2>
+			<h4 class="message" data-ng-show="vm.dashboard.last_analyzed.length < 1">
+				Nenhum projeto analisado no momento
+			</h4>
+			<table class="table" data-ng-show="vm.dashboard.last_analyzed.length > 0">
+				<tbody>
+					<tr data-ng-repeat="proposal_analyzed in vm.dashboard.last_analyzed">
+						<td class="proposal_detail">
+							<p>{{proposal_analyzed.name}}</p>
+							<p><strong>Número: </strong> {{proposal_analyzed.id}}</p>
+							<p><strong>CEAC: </strong> {{proposal_analyzed.ente_info.ceac}}</p>
+						</td>
+						<td class="action_table">
+							<h4 data-ng-show="proposal_analyzed.status === 'approved'"><span class="label label-success">Aprovado</span></h4>
+							<h4 data-ng-show="proposal_analyzed.status === 'reproved'"><span class="label label-danger">Reprovado</span></h4>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class='md-padding' id="client-list" layout="column" layout-align="center">
+		<md-card flex data-ng-repeat="proposal in vm.proposals">
+			<md-card-title>
+				<md-card-title-text>
+					<span class="md-headline">{{proposal.title}}</span>
+					<span class="md-subhead"><strong>Proposta nº:</strong> {{proposal.number}}</span>
+					<span class="md-subhead"><strong>Data de Envio: </strong> {{proposal.created_at | date:'d/MM/yyyy'}}</span>
+					<span class="md-subhead"><strong>Situação: </strong> {{proposal.status_display}}</span>
+				</md-card-title-text>
+				<md-card-title-media hide-xs>
+					<i class="material-icons md-48">folder</i>
+				</md-card-title-media>
+			</md-card-title>
+			<md-card-actions layout="row" layout-align="end center">
+				<md-button class="md-button md-raised md-primary" aria-label="Analisar"
+					data-ui-sref="admin.propostas.analise.detalhe({number: proposal.number})"
+					style="margin-right: 5px;">
+					<md-icon md-font-library="material-icons">library_books</md-icon>
+					Analisar Proposta
+				</md-button>
+			</md-card-actions>
+		</md-card>
+	</div>
+</div>

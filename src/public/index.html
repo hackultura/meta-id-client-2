@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html data-ng-app="metaidApp" class="{{documentClasses}}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title data-ng-bind="'SISCULT | ' + title">SISCULT</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+    <!-- build:layout_css css/layout.css-->
+    <!-- endbuild -->
+
+    <!-- build:css css/style.css -->
+	<link rel="stylesheet" href="build/css/bootstrap.css">
+	<link rel="stylesheet" href="build/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="build/css/style.css">
+    <!-- endbuild -->
+
+    <!-- build:vendor_css css/vendors.css -->
+	<link media="all" rel="stylesheet" href="vendors/angular/angular-csp.css">
+	<link media="all" rel="stylesheet" href="vendors/angular-material/angular-material.min.css">
+	<link media="all" rel="stylesheet" href="vendors/angular-loading-bar/build/loading-bar.min.css">
+	<link media="all" rel="stylesheet" href="build/css/loading.css">
+	<link media="all" rel="stylesheet" href="build/css/print_view.css">
+    <!-- endbuild -->
+
+	<!-- build:vendor_print css/print.css -->
+	<link media="print" rel="stylesheet" href="build/css/print_template.css">
+	<!-- endbuild -->
+
+	<link media="all" rel="stylesheet" href="fonts/material-icons.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="{{ pageClasses }}" data-ng-cloak>
+
+	  <div data-ui-view layout="column" flex class="{{wrapperClasses}}"></div>
+
+    <!-- build:layout_js js/layout.js -->
+	<!-- endbuild -->
+
+
+    <!-- build:lib js/lib.js -->
+    <!-- endbuild -->
+
+
+	<!-- build:app_lib js/app_lib.js -->
+	<!-- Angular -->
+	<script src="vendors/angular/angular.min.js"></script>
+	<!-- Angular i18n -->
+	<script src="vendors/angular-i18n/angular-locale_pt-br.js"></script>
+	<!-- Angular Aria -->
+	<script src="vendors/angular-aria/angular-aria.min.js"></script>
+	<!-- Angular Animate -->
+	<script src="vendors/angular-animate/angular-animate.min.js"></script>
+	<!-- Angular Messages -->
+	<script src="vendors/angular-messages/angular-messages.min.js"></script>
+	<!-- Angular Cookies -->
+	<script src="vendors/angular-cookies/angular-cookies.min.js"></script>
+	<!-- Angular UI Route -->
+	<script src="vendors/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<!-- Intro.JS-->
+	<script src="vendors/intro.js/minified/intro.min.js"></script>
+	<!-- Angular Intro.JS-->
+	<script src="vendors/angular-intro.js/build/angular-intro.min.js"></script>
+	<!-- Angular Material -->
+	<script src="vendors/angular-material/angular-material.min.js"></script>
+	<!-- NG File Upload -->
+	<script src="vendors/ng-file-upload/ng-file-upload-shim.min.js"></script>
+	<script src="vendors/ng-file-upload/ng-file-upload.min.js"></script>
+	<!-- Angular Input Masks -->
+	<script src="vendors/angular-input-masks/angular-input-masks-dependencies.min.js"></script>
+	<script src="vendors/angular-input-masks/angular-input-masks.br.min.js"></script>
+	<!-- Angular Loading Bar -->
+	<script src="vendors/angular-loading-bar/build/loading-bar.min.js"></script>
+	<!-- Angular Print -->
+	<script src="vendors/angularPrint/angularPrint.js"></script>
+	<!-- Angular Pretty Bytes -->
+	<script src="vendors/pretty-bytes/pretty-bytes.js"></script>
+	<script src="vendors/angular-pretty-bytes/angular-pretty-bytes.js"></script>
+	<!-- Angular BR Filters -->
+	<script src="vendors/angular-br-filters/release/angular-br-filters.min.js"></script>
+	<!-- Angular Color This -->
+	<script src="vendors/angular-color-this/dist/angular-color-this.min.js"></script>
+	<!-- endbuild -->
+
+
+    <!-- build:app app/app.js -->
+    <!-- Angular App -->
+    <script src="../app/app.module.js"></script>
+    <script src="../app/app.constant.js"></script>
+    <script src="../app/app.config.js"></script>
+
+    <script src="../app/core/header.controller.js" charset="utf-8"></script>
+    <script src="../app/core/sidenav.controller.js" charset="utf-8"></script>
+    <script src="../app/core/alert.service.js" charset="utf-8"></script>
+    <script src="../app/core/utils.service.js" charset="utf-8"></script>
+
+    <script src="../app/dashboard/dashboard.controller.js"></script>
+
+    <script src="../app/proposal/proposal.controller.js"></script>
+    <script src="../app/proposal/proposal.service.js"></script>
+
+    <script src="../app/artist/artist.controller.js"></script>
+    <script src="../app/artist/dashboard.controller.js"></script>
+    <script src="../app/artist/artist.service.js"></script>
+
+    <script src="../app/user/user.controller.js"></script>
+    <script src="../app/user/user.service.js"></script>
+    <script src="../app/user/classification.service.js"></script>
+
+    <!-- endbuild -->
+
+    <script src="app/html/templates.js"></script>
+
+  </body>
+</html>

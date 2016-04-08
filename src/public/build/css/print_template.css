@@ -1,0 +1,125 @@
+/* CSS criado para a estilização de relatórios para impressão */
+@media print {
+	html, body {
+		font-family: Roboto, 'Helvetica Neue', Arial, Times New Roman, sans-serif;
+	}
+
+	body {
+		background: transparent;
+		font-size: 12pt;
+		width: 100%;
+	}
+
+	a, a:visited {
+		text-decoration: underline;
+	}
+	a[href]:after {
+		content: " (" attr(href) ")";
+	}
+	abbr[title]:after {
+		content: " (" attr(title) ")";
+	}
+	a[href^="#"]:after,
+	a[href^="javascript:"]:after {
+		content: "";
+	}
+	pre,
+	blockquote {
+		border: 1px solid #999;
+		page-break-inside: avoid;
+	}
+	thead {
+		display: table-header-group;
+	}
+	tr,
+	img {
+		page-break-inside: avoid;
+	}
+	img {
+		max-width: 100% !important;
+	}
+
+	table {
+		width: 100% !important;
+	}
+
+	@page {
+		size: A4;
+	}
+
+	md-toolbar, .header_wrapper, .md-toolbar-tools, .cover {
+		display: none;
+	}
+
+	.page_view {
+		margin: 0;
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+	}
+
+	.page_a4 {
+		background: transparent;
+		width: auto;
+		min-height: auto;
+		height: auto;
+		margin-top: 0;
+	}
+
+	.page_a4_content {
+		margin: 0;
+		padding: 0;
+	}
+
+	.page_a4_wrapper {
+		height: 100%;
+	}
+
+	.header {
+		display: table-caption;
+		width: 600px;
+	}
+
+	.header .logo {
+		margin-top: 20px;
+	}
+
+	section.body {
+		display: inherit;
+		width: 100%;
+		line-height: 1em;
+	}
+
+	.proposal_files_padding {
+		margin-top: 150px !important;
+	}
+
+	p.details {
+		font-size: 10pt;
+	}
+
+	.footer {
+		width: 690px !important;
+		border-top: 1px solid #CCC!important;
+		margin-top: 10px !important;
+		margin-right: 0 !important;
+		padding: 20px 0 0 0 !important;
+	}
+
+	.footer_fixed_print {
+		position: fixed;
+		bottom: 0;
+	}
+
+	.footer_content {
+		width: 350px !important;
+		margin-left: 50% !important;
+	}
+
+	.footer p {
+		float: left;
+		width: 120px;
+		font-size: 10pt;
+		font-weight: 700;
+	}
+}

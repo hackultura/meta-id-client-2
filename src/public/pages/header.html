@@ -1,0 +1,102 @@
+<md-toolbar data-ng-init="vm.init()">
+	<div class="md-toolbar-tools" hide-xs>
+		<div class="logo_navbar">
+			<img src="img/gdf_navbar_logo.png" alt="">
+			<h2 aria-label="SISCULT" hide-xs>SISCULT</h2>
+		</div>
+
+		<md-button aria-label="Minha Situação" data-ui-sref="admin.minha_situacao">
+			<md-icon>dashboard</md-icon>
+			Minha Situação
+		</md-button>
+		<md-button aria-label="Perfis" data-ui-sref="admin.perfis">
+			<md-icon>group</md-icon>
+			Perfis
+		</md-button>
+		<md-button aria-label="Documentos" data-ui-sref="admin.documentos">
+			<md-icon>insert_drive_file</md-icon>
+			Documentos
+		</md-button>
+		<md-button aria-label="Editais" data-ui-sref="admin.editais">
+			<md-icon>description</md-icon>
+			Editais
+		</md-button>
+		<md-button aria-label="Contratações" data-ui-sref="admin.contratacoes">
+			<md-icon>recent_actors</md-icon>
+			Contratações
+		</md-button>
+		<md-menu md-position-mode="target-right target">
+			<md-button aria-label="Meu usuario" ng-click="$mdOpenMenu($event)">
+				<md-icon data-ng-show="vm.user.ente.cpf">face</md-icon>
+				<md-icon data-ng-show="vm.user.ente.cnpj">business</md-icon>
+				<md-icon data-ng-show="vm.user.is_admin">assignment_ind</md-icon>
+				{{vm.user.name}}
+			</md-button>
+			<md-menu-content>
+				<md-subheader>{{vm.user.name}}</md-subheader>
+				<md-menu-item>
+					<md-button layout-fill md-ink-ripple data-ui-sref="admin.perfil({id: vm.user.id})">
+						<md-icon md-menu-align-target>perm_identity</md-icon>
+						Meu Perfil
+					</md-button>
+				</md-menu-item>
+
+				<md-menu-item>
+					<md-button layout-fill md-ink-ripple data-ui-sref="admin.change_password({id: vm.user.id})">
+						<md-icon md-menu-align-target>lock</md-icon>
+						Alterar Senha
+					</md-button>
+				</md-menu-item>
+
+				<md-menu-item>
+					<md-button layout-fill md-ink-ripple data-ng-click="vm.logout()">
+						<md-icon md-menu-align-target>exit_to_app</md-icon>
+						Sair do Sistema
+					</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+	</div>
+
+	<div class="md-toolbar-tools" hide-gt-sm hide-sm>
+		<md-button aria-label="Painel Principal" data-ui-sref="admin.propostas" data-ng-hide="vm.user.is_admin">
+			<md-icon>dashboard</md-icon>
+		</md-button>
+		<md-button aria-label="Painel Principal" data-ui-sref="admin.propostas.painel" data-ng-show="vm.user.is_admin">
+			<md-icon>line_style</md-icon>
+			Painel de Controle
+		</md-button>
+		<md-button aria-label="Painel Principal" data-ui-sref="admin.propostas.analise" data-ng-show="vm.user.is_admin">
+			<md-icon>view_list</md-icon>
+			Propostas enviadas
+		</md-button>
+		<md-menu md-position-mode="target-right target">
+			<md-button aria-label="Meu usuario" ng-click="$mdOpenMenu($event)">
+				<md-icon>face</md-icon>
+			</md-button>
+			<md-menu-content>
+				<md-subheader>{{vm.user.name}}</md-subheader>
+				<md-menu-item>
+					<md-button layout-fill md-ink-ripple data-ui-sref="admin.perfil({id: vm.user.id})">
+						<md-icon md-menu-align-target>perm_identity</md-icon>
+						Meu Perfil
+					</md-button>
+				</md-menu-item>
+
+				<md-menu-item>
+					<md-button layout-fill md-ink-ripple data-ui-sref="admin.change_password({id: vm.user.id})">
+						<md-icon md-menu-align-target>lock</md-icon>
+						Alterar Senha
+					</md-button>
+				</md-menu-item>
+
+				<md-menu-item>
+					<md-button layout-fill md-ink-ripple data-ng-click="vm.logout()">
+						<md-icon md-menu-align-target>exit_to_app</md-icon>
+						Sair do Sistema
+					</md-button>
+				</md-menu-item>
+			</md-menu-content>
+		</md-menu>
+	</div>
+</md-toolbar>

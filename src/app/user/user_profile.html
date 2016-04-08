@@ -1,0 +1,91 @@
+<div ng-controller="UserProfileController as vm" data-ng-init="vm.init()">
+	<div layout="column" ng-cloak class="md-inline-form">
+		<div layout="row" layout-padding  class="cover client_cover">
+			<div layout-align="left center" layout-padding flex>
+				<h1 hide-xs>Meu Perfil</h1>
+				<h3 hide-gt-sm hide-sm>Meu Perfil</h3>
+			</div>
+			<div layout-align="end" hide-xs>
+				<md-button class="md-raised md-fab md-primary button_cover" aria-label="Voltar" data-ui-sref="admin.propostas">
+					<md-icon md-font-library="material-icons">arrow_back</md-icon>
+				</md-button>
+			</div>
+
+			<div layout-align="end" hide-gt-sm hide-sm>
+				<md-button class="md-raised md-fab md-mini md-primary button_cover" aria-label="Voltar" data-ui-sref="admin.propostas">
+					<md-icon md-font-library="material-icons md-24">arrow_back</md-icon>
+				</md-button>
+			</div>
+		</div>
+		<div id="errors">
+			<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+		</div>
+		<form name="profileForm" method="post" layout="row" layout-padding data-ng-submit="vm.saveProfile()" layout-align="center" novalidate>
+			<md-card flex="80">
+				<md-content>
+					<md-input-container class="md-block" flex-gt-sm>
+						<label data-ng-show="vm.user.cpf">Nome Completo</label>
+						<label data-ng-show="vm.user.cnpj">Nome do Representante Legal</label>
+						<input ng-model="vm.user.name" name="name" type="text" data-md-minlength="10" data-md-maxlength="50" maxlength="50" required autofocus>
+						<div ng-messages="profileForm.name.$error" role="alert">
+							<div ng-message="required" class="my-message">O nome é obrigatório</div>
+							<div ng-message="md-minlength" class="my-message">O mínimo é de 10 caracteres</div>
+						</div>
+					</md-input-container>
+					<md-input-container class="md-block" flex-gt-sm>
+						<label>Email</label>
+						<input name="email" ng-model="vm.user.email" type="text"
+						required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+						<div ng-messages="profileForm.email.$error" role="alert">
+							<div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+								Seu e-mail deve ser entre 10 e 100 caracteres and ter o formato de um e-mail correto.
+							</div>
+						</div>
+					</md-input-container>
+					<md-input-container data-ng-hide="vm.user.is_admin">
+						<label>Número do CEAC</label>
+						<input ng-model="vm.user.ente.ceac" name="ceac" type="text" data-md-minlength="4" data-md-maxlength="4" maxlength="4" required>
+						<div ng-messages="profileForm.ceac.$error" role="alert">
+							<div ng-message="required" class="my-message">CEAC é obrigatório</div>
+						</div>
+					</md-input-container>
+					<md-input-container class="md-block" flex-gt-sm data-ng-show="vm.user.cpf">
+						<label>CPF</label>
+						<input type="text" ng-model="vm.user.cpf" name="cpf"
+						required minlength="11" maxlength="14" ng-pattern="/^[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2}$/" />
+						<div ng-messages="profileForm.cpf.$error" role="alert">
+							<div ng-message-exp="['minlength', 'maxlength', 'pattern']" class="my-message">
+								Insira o CPF no seguinte formato: 000.000.000-00
+							</div>
+							<div ng-message="required" class="my-message">
+								O CPF é obrigatório
+							</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block" flex-gt-sm data-ng-show="vm.user.cnpj">
+						<label>CNPJ</label>
+						<input type="text" ng-model="vm.user.cnpj" name="cnpj"
+						required minlength="18" maxlength="18" ng-pattern="/^[0-9]{2}[\.][0-9]{3}[\.][0-9]{3}[\/][0-9]{4}[\-][0-9]{2}$/" />
+						<div ng-messages="profileForm.cnpj.$error" role="alert">
+							<div ng-message-exp="['minlength', 'maxlength', 'pattern']" class="my-message">
+								Insira o CNPJ no seguinte formato: 00.000.000/0000-00
+							</div>
+							<div ng-message="required" class="my-message">
+								O CNPJ é obrigatório
+							</div>
+						</div>
+					</md-input-container>
+				</md-content>
+				<div layout="row" layout-align="center">
+					<md-button class="md-raised md-primary" aria-label="Atualizar Perfil" type="submit">
+						<md-icon>save</md-icon>
+						<span hide-xs>Atualizar Perfil</span>
+						<span hide-gt-sm hide-sm>Atualizar</span>
+					</md-button>
+				</div>
+			</md-card>
+		</form>
+	</div>
+
+</div>

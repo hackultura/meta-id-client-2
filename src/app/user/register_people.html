@@ -1,0 +1,234 @@
+<form name="peopleForm" method="post" layout="row" layout-padding layout-align="center" novalidate>
+	<md-tabs md-dynamic-height md-border-bottom md-selected="vm.indexStep" class="md-padding" flex>
+		<md-tab label="Dados Pessoais">
+			<md-content class="md-padding">
+				<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+				<md-card flex>
+					<p data-ng-hide="peopleForm.$invalid">Não tem erros</p>
+					<p data-ng-show="peopleForm.$invalid">Tem erros </p>
+					<md-content>
+						<md-input-container class="md-block" flex-gt-sm>
+							<label>Nome Completo</label>
+							<input ng-model="vm.user.name" name="name" type="text"
+							data-md-minlength="10" data-md-maxlength="50" maxlength="50" required autofocus>
+							<div ng-messages="peopleForm.name.$error" role="alert">
+								<div ng-message="required" class="my-message">O nome é obrigatório</div>
+								<div ng-message="md-minlength" class="my-message">O mínimo é de 10 caracteres</div>
+							</div>
+						</md-input-container>
+						<div layout-gt-sm="row">
+							<md-input-container class="md-block" flex-gt-sm flex="80">
+								<label>Endereço</label>
+								<input type="text" ng-model="vm.geographic_informations.endereco" name="address" required />
+								<div ng-messages="peopleForm.address.$error" role="alert">
+									<div ng-message="required" class="my-message">
+										O Endereço é obrigatório
+									</div>
+								</div>
+							</md-input-container>
+							<md-input-container class="md-block" flex-gt-sm flex="20">
+								<label>CEP</label>
+								<input name="cep" ng-model="vm.geographic_informations.cep" type="text"
+								required minlength="9" maxlength="9" ng-pattern="/^[0-9]{5}[\-][0-9]{3}$/" />
+								<div ng-messages="peopleForm.cep.$error" role="alert">
+									<div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+										Seu CEP deve ter o seguinte formato: 00000-000.
+									</div>
+								</div>
+							</md-input-container>
+						</div>
+						<div layout-gt-sm="row">
+							<md-input-container class="md-block" flex-gt-sm flex="50">
+								<label>Bairro</label>
+								<input type="text" ng-model="vm.geographic_informations.bairro" name="street" required />
+								<div ng-messages="peopleForm.street.$error" role="alert">
+									<div ng-message="required" class="my-message">
+										O Bairro é obrigatório
+									</div>
+								</div>
+							</md-input-container>
+							<md-input-container class="md-block" flex-gt-sm flex="50">
+								<label>Cidade</label>
+								<input name="city" ng-model="vm.geographic_informations.cidade" type="text" required />
+								<div ng-messages="peopleForm.city.$error" role="alert">
+									<div ng-message="required" class="my-message">
+										A cidade é obrigatória
+									</div>
+								</div>
+							</md-input-container>
+							<md-input-container class="md-block" flex-gt-sm flex="20">
+								<label>Estado</label>
+								<input name="state" ng-model="vm.geographic_informations.estado" type="text"
+								value="'DF'" placeholder="DF" disabled />
+								<div ng-messages="peopleForm.state.$error" role="alert">
+									<div ng-message="required" class="my-message">
+										O estado é obrigatório
+									</div>
+								</div>
+							</md-input-container>
+						</div>
+						<div layout-gt-sm="row">
+							<md-input-container class="md-block" flex-gt-sm flex="30">
+								<label>CPF</label>
+								<input type="text" ng-model="vm.user.ente.cpf" name="cpf" data-ui-br-cpf-mask
+								required minlength="11" maxlength="14" ng-pattern="/^[0-9]{3}[\.][0-9]{3}[\.][0-9]{3}[\-][0-9]{2}$/" />
+								<div ng-messages="peopleForm.cpf.$error" role="alert">
+									<div ng-message-exp="['minlength', 'maxlength', 'pattern']" class="my-message">
+										Insira o CPF no seguinte formato: 000.000.000-00
+									</div>
+									<div ng-message="required" class="my-message">
+										O CPF é obrigatório
+									</div>
+									<div ng-message="cpf" class="my-message">
+										Esse CPF é inválido
+									</div>
+								</div>
+							</md-input-container>
+							<md-input-container class="md-block" flex-gt-sm flex="30">
+								<label>Data de Nascimento</label>
+								<input type="text" ng-model="vm.user.ente.nascimento" name="birth"
+								required minlength="10" maxlength="10" ng-pattern="/^[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}$/" />
+								<div ng-messages="peopleForm.birth.$error" role="alert">
+									<div ng-message="required" class="my-message">
+										A data de nascimento é obrigatório
+									</div>
+									<div ng-message="pattern" class="my-message">
+										A data de nascimento é inválida. O formato é 00/00/0000.
+									</div>
+								</div>
+							</md-input-container>
+							<md-input-container class="md-block" flex-gt-sm>
+								<label>Email</label>
+								<input name="email" ng-model="vm.user.email" type="text"
+								required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+								<div ng-messages="peopleForm.email.$error" role="alert">
+									<div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+										Seu e-mail deve ser entre 10 e 100 caracteres and ter o formato de um e-mail correto.
+									</div>
+								</div>
+							</md-input-container>
+						</div>
+						<div layout-gt-sm="row">
+							<md-input-container class="md-block" flex-gt-sm>
+								<label>Digite a senha</label>
+								<input ng-model="vm.user.password1" type="password" name="password1" required>
+								<div ng-messages="peopleForm.password1.$error" role="alert">
+									<div ng-message="required" class="my-message">
+										A senha é obrigatória
+									</div>
+								</div>
+							</md-input-container>
+							<md-input-container class="md-block" flex-gt-sm>
+								<label>Re-digite a senha</label>
+								<input ng-model="vm.user.password2" type="password" name="password2" required>
+								<div ng-messages="peopleForm.password2.$error" role="alert">
+									<div ng-message="required" class="my-message">
+										A senha é obrigatória
+									</div>
+								</div>
+							</md-input-container>
+						</div>
+					</md-content>
+					<div layout="row" layout-align="center">
+						<md-button class="md-raised md-primary" aria-label="Próxima Etapa"
+							data-ng-click="vm.goToArtisticStep()" data-ng-disabled="!vm.readyToArtisticStep()">
+							<span hide-xs>Próxima Etapa</span>
+							<span hide-gt-sm hide-sm>Próxima Etapa</span>
+							<md-icon>play_arrow</md-icon>
+						</md-button>
+					</div>
+				</md-card>
+			</form>
+		</md-content>
+	</md-tab>
+	<md-tab label="Classificação Artística">
+		<md-content class="md-padding">
+			<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+			<md-card flex>
+				<md-content>
+					<div layout-gt-sm="row">
+						<md-input-container class="md-block" flex-gt-sm flex="60">
+							<md-select placeholder="Atuação Cultural" ng-model="vm.classification.atuacao"
+								style="min-width: 200px;" name="atuacao">
+								<md-option ng-value="atuacao" ng-repeat="atuacao in vm.artisticInputs.atuacoes">{{atuacao.rotulo}}</md-option>
+							</md-select>
+							<div ng-messages="peopleForm.atuacao.$error" role="alert">
+								<div ng-message="required" class="my-message">
+									O campo de atuação artística é obrigatória
+								</div>
+							</div>
+						</md-input-container>
+						<md-input-container class="md-block" flex-gt-sm flex="60">
+							<md-select placeholder="Área Artística" ng-model="vm.classification.area"
+								style="min-width: 200px;" name="area"
+								data-ng-disabled="peopleForm.atuacao.$invalid">
+								<md-option ng-value="area" ng-repeat="area in vm.artisticInputs.areas">{{area.value}}</md-option>
+							</md-select>
+							<div ng-messages="peopleForm.area.$error" role="alert">
+								<div ng-message="required" class="my-message">
+									O campo de área artística é obrigatória
+								</div>
+							</div>
+						</md-input-container>
+					</div>
+					<div layout-gt-sm="row">
+						<md-input-container class="md-block" flex-gt-sm flex="60">
+							<md-select placeholder="Estilo Artístico" ng-model="vm.classification.estilo"
+								md-on-open="vm.loadArtisticStyles()" style="min-width: 200px;" name="estilo"
+								data-ng-disabled="peopleForm.area.$invalid">
+								<md-option ng-value="estilo" ng-repeat="estilo in vm.artisticInputs.estilos">{{estilo}}</md-option>
+							</md-select>
+						</md-input-container>
+						<md-input-container class="md-block" flex-gt-sm flex="60">
+							<label>Tempo de Experiência (em anos)</label>
+							<input type="number" name="experiencia" min="1" data-ng-model="vm.classification.experiencia"
+							data-ng-disabled="peopleForm.estilo.$invalid" />
+						</md-input-container>
+					</div>
+				</md-content>
+
+				<md-content>
+					<div class='md-padding' id="client-list" layout="column" layout-align="center" data-ng-show="vm.listClassifications.length > 0">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<td>&nbsp;</td>
+									<td>Atuação</td>
+									<td>Área</td>
+									<td>Estilo</td>
+									<td>Experiência (em anos)</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr data-ng-repeat="classification in vm.listClassifications">
+									<td><a href data-ng-click="vm.removeClassification(classification)">Remover</a></td>
+									<td>{{classification.atuacao}}</td>
+									<td>{{classification.area}}</td>
+									<td>{{classification.estilo}}</td>
+									<td>{{classification.experiencia}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div layout="row" layout-align="center">
+						<md-button type="submit" class="md-raised md-primary" aria-label="Adicionar Classificacao"
+							data-ng-click="vm.addClassification()" data-ng-disabled="peopleForm.$invalid">
+							<md-icon>save</md-icon>
+							<span hide-xs>Adicionar Classificação</span>
+							<span hide-gt-sm hide-sm>Adicionar</span>
+						</md-button>
+						<md-button type="submit" class="md-raised md-primary" aria-label="Salvar Cadastro"
+							data-ng-click="vm.createUser()" data-ng-disabled="peopleForm.$invalid && vm.listClassifications.length == 0">
+							<md-icon>save</md-icon>
+							<span hide-xs>Finalizar Cadastro</span>
+							<span hide-gt-sm hide-sm>Salvar</span>
+						</md-button>
+					</div>
+				</md-content>
+			</md-card>
+
+		</md-content>
+	</md-tab>
+</md-tabs>
+</form>

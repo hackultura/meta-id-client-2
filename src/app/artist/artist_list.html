@@ -1,0 +1,62 @@
+<div data-ng-controller="ArtistController as vm" data-ng-init="vm.init()">
+	<div layout="row" layout-padding  class="cover client_cover">
+		<div layout-align="center" layout-padding flex>
+			<h1 hide-xs>Artistas</h1>
+			<h3 hide-gt-sm hide-sm>Artistas</h3>
+		</div>
+	</div>
+	<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+	<div class='md-padding' id="client-list" layout="column" layout-align="center">
+		<div layout="row" flex="80" layout-xs="column">
+			<md-input-container class="md-icon-float md-block" flex-gt-sm>
+				<label>Nome do Artista</label>
+				<md-icon>face</md-icon>
+				<input ng-model="vm.search.name" type="text">
+			</md-input-container>
+			<md-input-container class="md-icon-float md-block" flex="15" flex-xs>
+				<label>CPF</label>
+				<md-icon>repeat_one</md-icon>
+				<input ng-model="vm.search.cpf" type="text">
+			</md-input-container>
+		</div>
+
+		<div class="md-padding" layout="row" layout-wrap layout-xs="column" layout-align="center">
+			<md-card class="proposal_box" flex flex-xs="100" data-ng-repeat="artist in vm.artists.results | filter: {name: vm.search.name, ente_info: {cpf: vm.search.cpf}}">
+				<md-card-title>
+					<md-card-title-text>
+						<span class="md-headline">{{artist.name}}</span>
+						<span class="md-subhead"><strong>CPF: </strong> {{artist.ente_info.cpf}}</span>
+					</md-card-title-text>
+					<md-card-title-media hide-xs>
+						<i class="material-icons md-48">face</i>
+					</md-card-title-media>
+				</md-card-title>
+				<md-card-actions layout="row" layout-align="end center">
+					<md-button class="md-fab md-mini md-accent" aria-label="Editar"
+						style="margin-right: 5px;" title="Editar Projeto">
+						<md-icon md-font-library="material-icons">mode_edit</md-icon>
+					</md-button>
+					<md-button class="md-fab md-mini md-warn" aria-label="Remover"
+						title="Remover Proposta">
+						<md-icon md-font-library="material-icons">delete</md-icon>
+					</md-button>
+				</md-card-actions>
+			</md-card>
+			</div>
+		<div class="md-padding" layout="row" layout-wrap layout-xs="column" layout-align="center">
+			<md-button class="md-raised md-accent" aria-label="Página Anterior" type="submit"
+				title="Página Anterior" data-ng-disabled="vm.artists.next || !vm.artists.previous" data-ng-click="vm.previousPage()">
+				<md-icon>fast_rewind</md-icon>
+				<span hide-xs>Anterior</span>
+				<span hide-gt-sm hide-sm>Anterior</span>
+			</md-button>
+
+			<md-button class="md-raised md-accent" aria-label="Próxima Página" type="submit"
+				title="Próxima Página" data-ng-disabled="!vm.artists.next || vm.artists.previous" data-ng-click="vm.nextPage()">
+				<md-icon>fast_forward</md-icon>
+				<span hide-xs>Próximo</span>
+				<span hide-gt-sm hide-sm>Próximo</span>
+			</md-button>
+		</div>
+	</div>
+</div>

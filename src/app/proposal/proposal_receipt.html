@@ -1,0 +1,54 @@
+<div ng-controller="ProposalDetailsController as vm" data-ng-init="vm.init()">
+	<div layout="column" ng-cloak class="md-inline-form">
+		<div layout="row" layout-padding  class="cover client_cover">
+			<div layout-align="left center" layout-padding flex>
+				<h1 hide-xs>Detalhes da Proposta</h1>
+				<h3 hide-gt-sm hide-sm>Detalhes da Proposta</h3>
+			</div>
+			<div layout-align="end" hide-xs>
+				<md-button class="md-raised md-fab md-warn button_cover" aria-label="Voltar" data-ui-sref="admin.propostas.analise">
+					<md-icon md-font-library="material-icons">arrow_back</md-icon>
+				</md-button>
+			</div>
+
+			<div layout-align="end" hide-gt-sm hide-sm>
+				<md-button class="md-raised md-fab md-warn button_cover" aria-label="Voltar" data-ui-sref="admin.propostas.analise">
+					<md-icon md-font-library="material-icons md-24">arrow_back</md-icon>
+				</md-button>
+			</div>
+		</div>
+		<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs.join(', ') }}</p>
+		<md-card flex="80">
+			<h2 class="md-headline"><strong>Nome do Projeto:</strong> {{vm.proposal.title}}</h2>
+			<h3 class="md-subhead">
+				<p> <strong>Data de Envio: </strong> {{vm.proposal.created_at | date:'dd/MM/yyyy'}} </p>
+				<p> <strong>Status: </strong> {{vm.proposal.status_display}} </p>
+			</h3>
+		</md-card>
+		<md-card flex="60">
+			<md-content layout-padding>
+				<table class="table">
+					<tbody>
+						<tr data-ng-repeat="attachment in vm.proposal.attachments">
+							<td><a href="{{attachment.file}}">{{attachment.filename}}</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</md-content>
+			<div layout="row" layout-align="center">
+				<md-button class="md-raised md-primary" aria-label="Atualizar Proposta" type="submit" data-ng-click="vm.approveProposal()">
+					<md-icon>thumb_up</md-icon>
+					<span hide-xs>Aprovar Proposta</span>
+					<span hide-gt-sm hide-sm>Aprovar</span>
+				</md-button>
+
+				<md-button class="md-raised md-warn" aria-label="Enviar Proposta" data-ng-click="vm.reproveProposal()">
+					<md-icon>thumb_down</md-icon>
+					<span hide-xs>Reprovar Proposta</span>
+					<span hide-gt-sm hide-sm>Reprovar</span>
+				</md-button>
+			</div>
+		</md-card>
+	</div>
+
+</div>

@@ -1,0 +1,13 @@
+  <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-content>
+      <md-list>
+        <div data-ng-repeat="item in vm.menu" data-ui-sref="{{item.link}}">
+          <md-list-item data-ui-sref="{{item.link}}">
+            <md-icon md-font-library="material-icons">{{item.icon}}</md-icon>
+            <p class="md-body-2">{{item.title}}</p>
+            <span flex></span>
+          </md-list-item>
+        </div>
+      </md-list>
+    </md-content>
+  </md-sidenav>

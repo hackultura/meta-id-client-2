@@ -1,0 +1,67 @@
+<div data-ng-controller="ProposalController as vm" data-ng-init="vm.init()">
+	<div layout="row" layout-padding  class="cover client_cover">
+		<div layout-align="center" layout-padding flex>
+			<h1 hide-xs>Meus Projetos</h1>
+			<h3 hide-gt-sm hide-sm>Meus Projetos</h3>
+		</div>
+		<div layout-align="end center" hide-xs>
+			<md-button class="md-raised md-fab md-primary button_cover" title="Nova Proposta" title="Nova Proposta"
+				aria-label="Novo Cliente" data-ui-sref="admin.propostas.novo" data-ng-disabled="vm.disableNewProposal()">
+				<md-icon md-font-library="material-icons">add</md-icon>
+			</md-button>
+		</div>
+
+		<div layout-align="end center" hide-gt-sm hide-sm>
+			<md-button class="md-raised md-fab md-mini md-primary button_cover" title="Nova Proposta" data-ng-disabled="vm.disableNewProposal()"
+				aria-label="Novo Cliente" data-ui-sref="admin.propostas.novo">
+				<md-icon md-font-library="material-icons">add</md-icon>
+			</md-button>
+		</div>
+	</div>
+	<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+	<p data-ng-show="vm.disableNewProposal()" class="alert alert-info">
+		Você pode criar no máximo <strong>2 (duas) propostas</strong>. A proposta que for enviada ou cancelada <strong>não pode mais ser editada</strong>.
+	</p>
+	<div class='md-padding' id="client-list" layout="row" layout-wrap layout-align="center">
+		<h2 data-ng-show="vm.proposals.length === 0" hide-xs>
+			Vimos que você não tem propostas cadastradas. Clique no botão <a data-ui-sref="admin.propostas.novo"><img src="img/button_new_proposal.png" alt="Nova proposta"></a> para inserir.
+		</h2>
+		<h4 data-ng-show="vm.proposals.length === 0" hide-gt-sm hide-sm>
+			Clique no botão <img src="img/button_new_proposal.png" width="48" height="48" alt="Nova Proposta"> para inserir.
+		</h4>
+		<div class="md-padding" layout="row" layout-wrap layout-xs="column" layout-align="center">
+			<md-card class="proposal_box" flex flex-xs="100" data-ng-repeat="proposal in vm.proposals">
+				<md-card-title>
+					<md-card-title-text>
+						<span class="md-headline">{{proposal.title}}</span>
+						<span class="md-subhead"><strong>Número: </strong> {{proposal.id}}</span>
+						<span class="md-subhead" data-ng-show="proposal.status === 'sended'"><strong>Data de Envio: </strong> {{proposal.created_at | date:'dd/MM/yyyy HH:mm:ss':'-0300'}}</span>
+						<span class="md-subhead"><strong>Situação: </strong> {{proposal.status_display}}</span>
+					</md-card-title-text>
+					<md-card-title-media hide-xs>
+						<i class="material-icons md-48">folder</i>
+					</md-card-title-media>
+				</md-card-title>
+				<md-card-actions layout="row" layout-align="end center">
+					<md-button class="md-fab md-mini md-primary md-hue-2" aria-label="Imprimir Comprovante" data-ng-show="vm.enablePrintProposal(proposal)"
+						data-ui-sref="admin.propostas.detalhe_impressao({number: proposal.number})" style="margin-right: 5px;"
+						title="Imprimir Comprovante do Projeto">
+						<md-icon md-font-library="material-icons">print</md-icon>
+					</md-button>
+					<md-button class="md-fab md-mini md-accent" aria-label="Editar" data-ng-show="proposal.status === 'draft'"
+						data-ui-sref="admin.propostas.editar({number: proposal.number})" style="margin-right: 5px;"
+						title="Editar Projeto">
+						<md-icon md-font-library="material-icons">mode_edit</md-icon>
+					</md-button>
+					<md-button class="md-fab md-mini md-warn" aria-label="Cancelar" data-ng-click="vm.cancelDialog($event, proposal.number)"
+						data-ng-show="proposal.status === 'sended'" title="Cancelar Projeto">
+						<md-icon md-font-library="material-icons">cancel</md-icon>
+					</md-button>
+					<md-button class="md-fab md-mini md-warn" aria-label="Remover" data-ng-click="vm.deleteDialog($event, proposal.number)"
+						data-ng-show="proposal.status === 'draft'" title="Remover Proposta">
+						<md-icon md-font-library="material-icons">delete</md-icon>
+					</md-button>
+				</md-card-actions>
+			</md-card>
+		</div>
+	</div>

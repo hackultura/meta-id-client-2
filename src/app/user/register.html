@@ -1,0 +1,38 @@
+<div ng-controller="UserRegisterController as vm" data-ng-init="vm.init()">
+	<div layout="column" ng-cloak class="md-inline-form">
+		<div layout="row" layout-padding  class="cover client_cover">
+			<div layout-align="left center" layout-padding flex>
+				<h1 hide-xs>Registro</h1>
+				<h3 hide-gt-sm hide-sm>Registro</h3>
+			</div>
+			<div layout-align="end" hide-xs data-ng-show="vm.readyToCreate()">
+				<md-button class="md-raised md-fab md-accent button_cover" aria-label="Salvar"
+					title="Salvar" data-ng-click="vm.createUser()">
+					<md-icon md-font-library="material-icons">save</md-icon>
+				</md-button>
+			</div>
+			<div layout-align="end" hide-gt-sm hide-sm data-ng-show="vm.readyToCreate()">
+				<md-button class="md-raised md-fab md-mini md-primary button_cover" aria-label="Salvar"
+					title="Salvar" data-ng-click="vm.createUser()">
+					<md-icon md-font-library="material-icons md-24">save</md-icon>
+				</md-button>
+			</div>
+
+			<div layout-align="end" hide-xs>
+				<md-button class="md-raised md-fab md-primary button_cover" aria-label="Voltar"
+					title="Voltar" data-ng-click="back()">
+					<md-icon md-font-library="material-icons">arrow_back</md-icon>
+				</md-button>
+			</div>
+
+			<div layout-align="end" hide-gt-sm hide-sm>
+				<md-button class="md-raised md-fab md-mini md-primary button_cover" aria-label="Voltar"
+					title="Voltar" data-ui-sref="admin.propostas">
+					<md-icon md-font-library="material-icons md-24">arrow_back</md-icon>
+				</md-button>
+			</div>
+
+		</div>
+		<div data-ng-include="'user/register_people.html'"></div>
+	</div>
+</div>

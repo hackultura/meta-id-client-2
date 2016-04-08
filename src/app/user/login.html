@@ -1,0 +1,58 @@
+<div ng-controller="LoginController as vm" data-ng-init="vm.init()">
+    <div layout="row" layout-align="center">
+	  <h1 hide-xs class="md-display-3">SISCULT | Login</h1>
+	  <h3 hide-gt-sm hide-sm class="md-display-2">SISCULT</h3>
+    </div>
+	<div layout="column" flex="80" layout-align="center" style="margin: 0 auto;">
+		<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs.msg }}</p>
+	</div>
+    <form name="loginForm" method="post" data-ng-submit="vm.login()" class="login_form" layout="row" layout-padding layout-align="center">
+      <md-card flex="50" flex-xs="90" class="md-whiteframe-z2">
+        <md-content>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Email</label>
+            <input name="email" ng-model="vm.user.email" type="email"
+            required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+            <div ng-messages="loginForm.email.$error" role="alert">
+              <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                Seu e-mail deve ser entre 10 e 100 caracteres e ter o formato de um e-mail correto.
+              </div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Senha</label>
+            <input type="password" ng-model="vm.user.password" name="password" required />
+            <div ng-messages="loginForm.password.$error" role="alert">
+              <div ng-message="required" class="my-message">
+                A senha é obrigatória
+              </div>
+            </div>
+          </md-input-container>
+        </md-content>
+        <div class="login_button" layout="row" layout-align="center">
+          <md-button class="md-raised md-primary" aria-label="Acessar"
+          type="submit" ng-disabled="loginForm.$invalid">
+            <md-icon>open_in_browser</md-icon>
+            <span>Acessar</span>
+          </md-button>
+
+          <md-button class="md-raised md-primary" aria-label="Registrar"
+          data-ui-sref="simple.register">
+            <md-icon>fiber_new</md-icon>
+            <span>Iniciar habilitação</span>
+          </md-button>
+        </div>
+		<div layout-align="center" layout="column" class="login_footer">
+			<p>Se esse for seu primeiro acesso, clique-se em Registrar para gerar seu usuário e senha.</p>
+			<div layout="row" layout-align="center">
+				<div class="gdf_logo">
+					<span hide-xs hide-sm>Secretaria de Estado de Cultura</span>
+					<img src="img/gdf_footer.png" alt="Governo de Brasília">
+				</div>
+			</div>
+		</div>
+      </md-card>
+    </form>
+  </div>
+
+</div>

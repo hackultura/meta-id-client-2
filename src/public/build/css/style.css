@@ -1,0 +1,176 @@
+html, body {
+	font-family: 'Montserrat', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+
+/* Material Icons Sizes */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+.material-icons.md-64 { font-size: 64px; }
+.material-icons.md-128 { font-size: 128px; }
+
+/* Login */
+.login_footer p {
+	text-align: center
+}
+.fac_logo {
+	width: 64px;
+	height: 64px;
+	margin-right: 20px;
+}
+.fac_logo img {
+	width: 64px;
+	height: 64px;
+}
+
+.gdf_logo {
+	width: 300px;
+}
+
+.gdf_logo img {
+	width: 170px;
+	height: 65px;
+	float: right;
+}
+
+.gdf_logo span {
+	margin-top: 10px;
+	width: 130px;
+	float: left;
+}
+
+/*Navbar*/
+.logo_navbar {
+	width: 150px;
+	border-right: 1px solid #CCC;
+}
+
+.logo_navbar img {
+	float: left;
+}
+
+.logo_navbar h2 {
+	padding-top: 10px;
+}
+
+/* Covers */
+.cover {
+	color: #515151;
+	-moz-box-shadow:    1px 1px 2px 1px #ccc;
+	-webkit-box-shadow: 1px 1px 2px 1px #ccc;
+	box-shadow:         1px 1px 2px 1px #ccc;
+}
+
+.cover h1 {
+	/*text-shadow: 1px 1px 1px #000;*/
+}
+
+.cover .button_cover {
+	margin-top: 24%;
+}
+
+.client_cover {
+	/*background: url("../img/client_cover_bg.jpg");*/
+	background-color: #FFD54B;
+}
+
+.situation {
+	font-size: 18px;
+	padding-top: 20px;
+}
+
+.approved, .approved .material-icons {
+	color: green;
+}
+
+.repproved, .repproved .material-icons {
+	color: red;
+}
+
+/* Register Page */
+.profile_boxes {
+	cursor: pointer;
+}
+
+/* Login Page */
+body.login {
+	background: transparent;
+}
+
+.login h1, .login h3 {
+	color: #FFF;
+	text-shadow: 1px 1px 1px #000;
+}
+.login_bg {
+	background: url("../img/login_bg2.jpg") 1700px;
+}
+
+.login_form .md-block {
+	font-size: 20px;
+}
+
+/* Proposal List */
+@media screen and (min-width: 1024px) and (max-width: 1919px) {
+	.layout-row > .proposal_box {
+		min-width: 400px !important;
+	}
+}
+
+/* Upload */
+.drop-box {
+	background: #F8F8F8;
+	border: 5px dashed #DDD;
+	text-align: center;
+	padding: 50px 10px;
+}
+
+.drop-box.dragover {
+	border: 5px dashed blue;
+}
+
+.drop-box.dragover-err {
+	border: 5px dashed red;
+}
+
+/* Dashboard */
+.dashboard_box {
+	margin: 0 10px;
+}
+
+.dashboard_box .counter {
+	color: #FFF;
+}
+
+.dashboard_box h3 {
+	font-size: 3.5em;
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.dashboard_box h2 {
+	font-size: 1.5em;
+	text-align: center;
+}
+
+.dashboard_box .message {
+	 text-align: center;
+}
+
+.dashboard_box .table .proposal_detail p {
+	margin: 5px 0;
+}
+
+.dashboard_box .table .action_table {
+	vertical-align: middle;
+}
+
+.dashboard_box .table .action_table h4 {
+	font-size: 1.3em;
+	width: auto;
+	margin: 0;
+	float: right;
+}
