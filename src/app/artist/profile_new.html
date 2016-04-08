@@ -1,4 +1,4 @@
-<div ng-controller="ProposalNewController as vm" data-ng-init="vm.init()">
+<div ng-controller="ProfileNewController as vm" data-ng-init="vm.init()">
 	<div layout="column" ng-cloak class="md-inline-form">
 		<div layout="row" layout-padding  class="cover client_cover">
 			<div layout-align="left center" layout-padding flex>
@@ -20,15 +20,15 @@
 			</div>
 		</div>
 		<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
-		<form name="profileForm" method="post" layout="row" data-ng-submit="vm.createProposal()" layout-padding layout-align="center">
+		<form name="profileForm" method="post" layout="row" layout-padding layout-align="center">
 			<md-card flex="80">
-				<md-button class="md-button md-raised md-primary" aria-label="Foto do Perfil">
+				<md-button class="md-button md-raised md-primary" aria-label="Foto do Perfil" ngf-select>
 					<md-icon md-font-library="material-icons">cloud_upload</md-icon>
 					Inserir foto do Perfil
 				</md-button>
 				<md-input-container>
 					<label>Nome do Perfil</label>
-					<input ng-model="vm.profile.title" name="title" type="text" data-md-minlength="10" data-md-maxlength="60" maxlength="60" required >
+					<input ng-model="vm.profile.nome" name="title" type="text" data-md-minlength="10" data-md-maxlength="60" maxlength="60" required >
 					<div ng-messages="profileForm.title.$error" role="alert">
 						<div ng-message="required" class="my-message">O nome do perfil é obrigatório</div>
 						<div ng-message="md-minlength" class="my-message">O nome do perfil precisa ter no mínimo 10 caracteres</div>
@@ -36,7 +36,15 @@
 					</div>
 				</md-input-container>
 
-				<md-tabs md-dynamic-height md-border-bottom data-ng-show="profileForm.title.$valid">
+				<md-input-container>
+					<label>Histórico</label>
+					<textarea ng-model="vm.profile.historico" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+					<div ng-messages="profileForm.historic.$error" role="alert">
+						<div ng-message="required" class="my-message">O histórico é obrigatório</div>
+					</div>
+				</md-input-container>
+
+				<md-tabs md-dynamic-height md-border-bottom data-ng-show="vm.enablePortfolio">
 					<md-tab label="Arquivos">
 						<md-content layout-align="center"class="md-padding">
 							<md-content layout-padding layout="row">
@@ -210,8 +218,14 @@
 				</md-tabs>
 
 				<div layout="row" layout-align="center">
+					<md-button class="md-raised md-accent" aria-label="Adicionar Portfólio"
+						data-ng-click="vm.createProfile()" title="Adicionar Portfólio">
+						<md-icon>add</md-icon>
+						<span hide-xs>Inserir Portfólio</span>
+						<span hide-gt-sm hide-sm>Inserir Portfólio</span>
+					</md-button>
 					<md-button class="md-raised md-accent" aria-label="Salvar Projeto" type="submit"
-						title="Salvar Projeto" data-ng-disabled="proposalForm.title.$invalid || !vm.isFiles()">
+						title="Salvar Projeto" data-ng-show="vm.enablePortfolio">
 						<md-icon>save</md-icon>
 						<span hide-xs>Salvar Perfil</span>
 						<span hide-gt-sm hide-sm>Salvar</span>
