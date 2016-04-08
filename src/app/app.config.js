@@ -124,6 +124,34 @@
 					title: 'Meus Perfis'
 				}
 			})
+			.state('admin.documentos', {
+				parent: 'admin',
+				url: '/artista/documentos',
+				authenticate: true,
+				admin: false,
+				views: {
+					'content@admin': {
+						templateUrl: 'artist/documents.html'
+					}
+				},
+				data: {
+					title: 'Meus Documentos'
+				}
+			})
+			.state('admin.documentos.novo', {
+				parent: 'admin',
+				url: '/artista/documentos/novo',
+				authenticate: true,
+				admin: false,
+				views: {
+					'content@admin': {
+						templateUrl: 'artist/documents_new.html'
+					}
+				},
+				data: {
+					title: 'Meus Documentos'
+				}
+			})
 			.state('admin.propostas.novo', {
 				parent: 'admin',
 				url: '/propostas/novo',
