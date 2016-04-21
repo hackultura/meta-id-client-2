@@ -28,8 +28,7 @@
 	function ProfileController($mdDialog, UserService, ProfileService,
 															AlertService, PROPOSAL_LIMIT, PROPOSAL_STATUS) {
 		var vm = this;
-
-		vm.proposals = [];
+vm.proposals = [];
 
 		vm.errors = [];
 
@@ -110,25 +109,97 @@
 		var vm = this;
 
 		vm.profile = {};
+    vm.portfolio = {
+      'file': [],
+      'image': [],
+      'audio': [],
+      'video': []
+    };
+    vm.portfolio_file = {};
+    vm.portfolio_image = {};
+    vm.portfolio_audio = {};
+    vm.portfolio_video = {};
 		vm.errors = [];
 		vm.errorFiles = [];
 		vm.acceptFiles = UtilsService.accept_files();
+    vm.acceptAudio = UtilsService.accept_audio_files();
+    vm.acceptImage = UtilsService.accept_image_files();
+    vm.acceptVideo = UtilsService.accept_video_files();
     vm.enablePortfolio = false;
 
 		// Functions
 		vm.init = init;
 		vm.createProfile = createProfile;
+    vm.uploadFiles = uploadFiles;
+    vm.finishProfile = finishProfile;
 
 		function init() {
 		}
 
 		function createProfile() {
       vm.ente = UserService.getAuthenticatedAccount();
-      console.log(vm.ente);
       ProfileService.createProfile(vm.ente, vm.profile).then(function(response) {
         vm.enablePortfolio = true;
         vm.profile = response.data;
       });
 		}
+
+		function uploadFiles(files, errorFiles, type) {
+			if(files !== null && (errorFiles === null || errorFiles.length === 0)) {
+        prepareFiles(files, type);
+			}
+
+			if(errorFiles !== null) {
+				vm.errorFiles = errorFiles;
+			}
+		}
+
+    function finishProfile() {
+			showDialog();
+      vm.portfolio['file'].forEach(function(file) {
+        uploadDocuments(vm.profile, file, 'file');
+      });
+
+      vm.portfolio['image'].forEach(function(file) {
+        uploadDocuments(vm.profile, file, 'image');
+      });
+
+      vm.portfolio['audio'].forEach(function(file) {
+        uploadDocuments(vm.profile, file, 'audio');
+      });
+    }
+
+    function uploadDocuments(profile, arquivo, type) {
+      file.upload = ProfileService.uploadPortfolio(profile, arquivo, type);
+
+      file.upload.then(function() {
+        if (!ProfileService.isUploadIsProgress()) {
+          $timeout(function() {
+            $mdDialog.hide();
+          }, 300);
+        }
+      }, function(response) {
+        if(response.status > 0) {
+          $mdDialog.hide();
+          vm.errors = AlertService.error('Erro ao enviar arquivo: ' + response.data);
+        }
+      });
+    }
+
+    function showDialog(ev) {
+      $mdDialog.show({
+        controller: ProfileNewController,
+        controllerAs: 'vm',
+        templateUrl: 'artist/creating_profile.tmpl.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:false,
+        escapeToClose: false
+      });
+    }
+
+    function prepareFiles(files, type) {
+      vm.portfolio[type] = vm.portfolio[type].concat(files);
+    }
 	}
 })();

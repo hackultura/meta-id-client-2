@@ -15,6 +15,16 @@
 			block_insert: ['sended', 'analysis', 'approved', 'reproved'],
 			block_update: ['sended', 'analysis', 'approved', 'reproved', 'canceled']
 		})
+    .constant('ACCEPTED_AUDIO_FORMAT_UPLOADS', [
+			'.mp3', '.ogg', '.mp4', '.mpeg', '.rmvb', '.wav'
+    ])
+    .constant('ACCEPTED_IMAGE_FORMAT_UPLOADS', [
+      '.png', '.jpg', '.jpeg', '.gif', '.tiff', '.bmp',
+      '.svg'
+    ])
+    .constant('ACCEPTED_VIDEO_FORMAT_UPLOADS', [
+      '.aiff', '.voc', '.midi', '.mpg', '.mov', '.webm',
+    ])
 		.constant('ACCEPTED_FORMAT_UPLOADS', [
 			'.pdf', '.doc', '.docx', '.xls', '.xlsx',
 			'.ppt', '.pptx', '.odt', '.ods', '.odp', '.odg',

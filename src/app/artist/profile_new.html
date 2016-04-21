@@ -47,7 +47,7 @@
 				<md-tabs md-dynamic-height md-border-bottom data-ng-show="vm.enablePortfolio">
 					<md-tab label="Arquivos">
 						<md-content layout-align="center"class="md-padding">
-							<md-content layout-padding layout="row">
+							<!--md-content layout-padding layout="row">
 								<md-input-container flex>
 									<label>Nome do Arquivo</label>
 									<input ng-model="vm.portfolio.file.title" name="filename" type="text" data-md-minlength="10" data-md-maxlength="100" maxlength="100" required >
@@ -57,8 +57,8 @@
 										<div ng-message="md-maxlength" class="my-message">O nome do arquivo precisa ter no máximo 100 caracteres</div>
 									</div>
 								</md-input-container>
-							</md-content>
-							<div ngf-select="vm.uploadFiles($files, $invalidFiles)" ngf-drop="vm.uploadFiles($files, $invalidFiles)" ngf-accept="vm.acceptFiles" ngf-pattern="vm.acceptFiles"
+							</md-content-->
+							<div ngf-select="vm.uploadFiles($files, $invalidFiles, 'file')" ngf-drop="vm.uploadFiles($files, $invalidFiles, 'file')" ngf-accept="vm.acceptFiles" ngf-pattern="vm.acceptFiles"
 								ngf-min-size="10B" ngf-max-size="25MB" ngf-max-total-size="100MB"
 								ngf-multiple="true" ngf-allow-dir="true" class="drop-box" data-ng-click="vm.errorFiles = []">
 								<h4 class="md-display-1" hide-xs>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
@@ -79,15 +79,15 @@
 								</p>
 							</div>
 
-							<div class='md-padding' layout-align="center" data-ng-show="vm.proposal.attachments.length > 0">
+							<div class='md-padding' layout-align="center" data-ng-show="vm.portfolio.file.length > 0">
 								<md-list>
 									<md-subheader class="md-no-sticky">Portfólio do Perfil</md-subheader>
-									<md-list-item class="md-3-line" ng-repeat="attachment in vm.proposal.attachments">
+									<md-list-item class="md-3-line" ng-repeat="attachment in vm.portfolio.file">
 										<md-icon class="md-48">attach_file</md-icon>
 										<div class="md-list-item-text" layout="column">
 											<h3><strong>{{ attachment.name }}</strong></h3>
 											<h4><strong>Tamanho:</strong> {{ attachment.size | prettyBytes }}</h4>
-											<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeDocumentToUpload(attachment)">Remover</md-button>
+											<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFilePortfolio(attachment)">Remover</md-button>
 										</div>
 										<md-divider ></md-divider>
 									</md-list-item>
@@ -97,18 +97,19 @@
 					</md-tab>
 					<md-tab label="Áudio">
 						<md-content layout-align="center" class="md-padding">
-							<md-content layout-padding layout="row">
+							<!--md-content layout-padding layout="row">
 								<md-input-container flex>
 									<label>Nome do Áudio</label>
-									<input ng-model="vm.portfolio.audio.title" name="audio" type="text" data-md-minlength="10" data-md-maxlength="100" maxlength="100" required >
+									<input ng-model="vm.portolio_audio.title" name="audio" type="text" data-md-minlength="10" data-md-maxlength="100" maxlength="100" required >
 									<div ng-messages="profileForm.audio.$error" role="alert">
 										<div ng-message="required" class="my-message">O nome do áudio é obrigatório</div>
 										<div ng-message="md-minlength" class="my-message">O nome do áudio precisa ter no mínimo 10 caracteres</div>
 										<div ng-message="md-maxlength" class="my-message">O nome do áudio precisa ter no máximo 100 caracteres</div>
 									</div>
 								</md-input-container>
-							</md-content>
-							<div ngf-select="vm.uploadFiles($files, $invalidFiles)" ngf-drop="vm.uploadFiles($files, $invalidFiles)" ngf-accept="vm.acceptFiles" ngf-pattern="vm.acceptFiles"
+							</md-content-->
+							<div ngf-select="vm.uploadFiles($files, $invalidFiles, 'audio')" ngf-drop="vm.uploadFiles($files, $invalidFiles, 'audio')"
+								ngf-accept="vm.acceptAudio" ngf-pattern="vm.acceptAudio"
 								ngf-min-size="10B" ngf-max-size="25MB" ngf-max-total-size="100MB"
 								ngf-multiple="true" ngf-allow-dir="true" class="drop-box" data-ng-click="vm.errorFiles = []">
 								<h4 class="md-display-1" hide-xs>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
@@ -129,15 +130,15 @@
 								</p>
 							</div>
 
-							<div class='md-padding' layout-align="center" data-ng-show="vm.proposal.attachments.length > 0">
+							<div class='md-padding' layout-align="center" data-ng-show="vm.portfolio.audio.length > 0">
 								<md-list>
 									<md-subheader class="md-no-sticky">Portfólio do Perfil</md-subheader>
-									<md-list-item class="md-3-line" ng-repeat="attachment in vm.proposal.attachments">
+									<md-list-item class="md-3-line" ng-repeat="attachment in vm.portfolio.audio">
 										<md-icon class="md-48">attach_file</md-icon>
 										<div class="md-list-item-text" layout="column">
 											<h3><strong>{{ attachment.name }}</strong></h3>
 											<h4><strong>Tamanho:</strong> {{ attachment.size | prettyBytes }}</h4>
-											<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeDocumentToUpload(attachment)">Remover</md-button>
+											<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFilePortfolio(attachment)">Remover</md-button>
 										</div>
 										<md-divider ></md-divider>
 									</md-list-item>
@@ -147,7 +148,7 @@
 					</md-tab>
 					<md-tab label="Imagem">
 						<md-content layout-align="center"class="md-padding">
-							<md-content layout-padding layout="row">
+							<!--md-content layout-padding layout="row">
 								<md-input-container flex>
 									<label>Nome da Imagem</label>
 									<input ng-model="vm.portfolio.image.title" name="image" type="text" data-md-minlength="10" data-md-maxlength="100" maxlength="100" required >
@@ -157,8 +158,9 @@
 										<div ng-message="md-maxlength" class="my-message">O nome da imagem precisa ter no máximo 100 caracteres</div>
 									</div>
 								</md-input-container>
-							</md-content>
-							<div ngf-select="vm.uploadFiles($files, $invalidFiles)" ngf-drop="vm.uploadFiles($files, $invalidFiles)" ngf-accept="vm.acceptFiles" ngf-pattern="vm.acceptFiles"
+							</md-content-->
+							<div ngf-select="vm.uploadFiles($files, $invalidFiles, 'image')" ngf-drop="vm.uploadFiles($files, $invalidFiles, 'image')"
+								ngf-accept="vm.acceptImage" ngf-pattern="vm.acceptImage"
 								ngf-min-size="10B" ngf-max-size="25MB" ngf-max-total-size="100MB"
 								ngf-multiple="true" ngf-allow-dir="true" class="drop-box" data-ng-click="vm.errorFiles = []">
 								<h4 class="md-display-1" hide-xs>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
@@ -179,15 +181,15 @@
 								</p>
 							</div>
 
-							<div class='md-padding' layout-align="center" data-ng-show="vm.proposal.attachments.length > 0">
+							<div class='md-padding' layout-align="center" data-ng-show="vm.portfolio.image.length > 0">
 								<md-list>
 									<md-subheader class="md-no-sticky">Portfólio do Perfil</md-subheader>
-									<md-list-item class="md-3-line" ng-repeat="attachment in vm.proposal.attachments">
+									<md-list-item class="md-3-line" ng-repeat="attachment in vm.portfolio.image">
 										<md-icon class="md-48">attach_file</md-icon>
 										<div class="md-list-item-text" layout="column">
 											<h3><strong>{{ attachment.name }}</strong></h3>
 											<h4><strong>Tamanho:</strong> {{ attachment.size | prettyBytes }}</h4>
-											<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeDocumentToUpload(attachment)">Remover</md-button>
+											<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFilePortfolio(attachment)">Remover</md-button>
 										</div>
 										<md-divider ></md-divider>
 									</md-list-item>
@@ -199,7 +201,7 @@
 						<md-content layout-padding layout="row">
 							<md-input-container flex="40">
 								<label>Nome do Vídeo</label>
-								<input ng-model="vm.portfolio.video.title" name="video" type="text" data-md-minlength="10" data-md-maxlength="100" maxlength="100">
+								<input ng-model="vm.portfolio_video.title" name="video" type="text" data-md-minlength="10" data-md-maxlength="100" maxlength="100">
 								<div ng-messages="profileForm.video.$error" role="alert">
 									<div ng-message="required" class="my-message">O nome do vídeo é obrigatório</div>
 									<div ng-message="md-minlength" class="my-message">O nome do vídeo precisa ter no mínimo 10 caracteres</div>
@@ -208,7 +210,7 @@
 							</md-input-container>
 							<md-input-container flex="60">
 								<label>Endereço URL do Vídeo</label>
-								<input ng-model="vm.portfolio.video.url" name="video" type="text" data-md-minlength="10">
+								<input ng-model="vm.portfolio_video.url" name="video" type="text" data-md-minlength="10">
 								<div ng-messages="profileForm.video.$error" role="alert">
 									<div ng-message="required" class="my-message">O endereço do vídeo é obrigatório</div>
 								</div>
@@ -218,7 +220,7 @@
 				</md-tabs>
 
 				<div layout="row" layout-align="center">
-					<md-button class="md-raised md-accent" aria-label="Adicionar Portfólio"
+					<md-button class="md-raised md-accent" aria-label="Adicionar Portfólio" data-ng-disabled="profileForm.$invalid"
 						data-ng-click="vm.createProfile()" data-ng-hide="vm.enablePortfolio" title="Adicionar Portfólio">
 						<md-icon>add</md-icon>
 						<span hide-xs>Inserir Portfólio</span>
