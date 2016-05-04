@@ -22,9 +22,29 @@
 		};
 
     function uploadPortfolio(profile, arquivo, type) {
+      var data = {};
+      if(type === 'file') {
+        data = {
+          arquivo: arquivo,
+          nome: arquivo.filename
+        };
+      }
+      if(type === 'image') {
+        data = {
+          arquivo: arquivo,
+          descricao: arquivo.description
+        };
+      }
+      if(type === 'audio') {
+        data = {
+          audio: arquivo,
+          nome: arquivo.filename
+        };
+      }
+
       return Upload.upload({
         url: API_URI_PREFIX + '/perfis/' + profile.slug + '/portfolios/' + type,
-        data: {arquivo: arquivo}
+        data: data
       });
     }
 

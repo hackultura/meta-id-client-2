@@ -174,3 +174,10 @@ body.login {
 	margin: 0;
 	float: right;
 }
+
+/* Profile */
+
+.img_preview_card {
+	width: 128px;
+	height: auto;
+}

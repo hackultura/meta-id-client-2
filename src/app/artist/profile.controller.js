@@ -131,6 +131,8 @@ vm.proposals = [];
 		vm.init = init;
 		vm.createProfile = createProfile;
     vm.uploadFiles = uploadFiles;
+    vm.addVideo = addVideo;
+    vm.removeFileToUpload = removeFileToUpload;
     vm.finishProfile = finishProfile;
 
 		function init() {
@@ -154,6 +156,19 @@ vm.proposals = [];
 			}
 		}
 
+    function addVideo() {
+      vm.portfolio.video.push(vm.portfolio_video);
+      vm.portfolio_video = {};
+    }
+
+		function removeFileToUpload (attachment, type) {
+			vm.portfolio[type] = vm.portfolio[type].filter(function(item) {
+				if(item.$$hashKey !== attachment.$$hashKey) {
+					return item;
+				}
+			});
+		}
+
     function finishProfile() {
 			showDialog();
       vm.portfolio['file'].forEach(function(file) {
@@ -170,10 +185,10 @@ vm.proposals = [];
     }
 
     function uploadDocuments(profile, arquivo, type) {
-      file.upload = ProfileService.uploadPortfolio(profile, arquivo, type);
+      arquivo.upload = ProfileService.uploadPortfolio(profile, arquivo, type);
 
-      file.upload.then(function() {
-        if (!ProfileService.isUploadIsProgress()) {
+      arquivo.upload.then(function() {
+        if (!ProfileService.isUploadInProgress()) {
           $timeout(function() {
             $mdDialog.hide();
           }, 300);
