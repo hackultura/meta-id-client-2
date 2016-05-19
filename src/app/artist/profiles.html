@@ -1,4 +1,4 @@
-<div data-ng-controller="DashboardController as vm" data-ng-init="vm.init()">
+<div data-ng-controller="ProfileController as vm" data-ng-init="vm.init()">
 	<div layout="row" layout-padding  class="cover client_cover">
 		<div layout-align="center" layout-padding flex>
 			<h1 hide-xs>Meus Perfis</h1>
@@ -19,18 +19,26 @@
 		</div>
 	</div>
 	<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
-	<md-card flex>
+	<div layout="row" flex="80">
+		<md-input-container class="md-icon-float md-block" flex-gt-sm>
+			<label>Nome do Perfil</label>
+			<md-icon>face</md-icon>
+			<input ng-model="vm.search.name" type="text">
+		</md-input-container>
+	</div>
+	<md-card flex data-ng-repeat="profile in vm.profiles | filter: {nome: vm.search.name}">
 		<md-card-title>
 			<md-card-title-text>
-				<span class="md-headline">Banda mais bonita da cidade</span>
+				<span class="md-headline">{{profile.nome}}</span>
+				<span class="md-subhead"><strong>Histórico: </strong> {{profile.historico}}</span>
 			</md-card-title-text>
-			<md-card-title-media hide-xs title="Pessoa Física">
+			<md-card-title-media hide-xs title="{{profile.nome}}">
 				<i class="material-icons md-48">account_circle</i>
 			</md-card-title-media>
 		</md-card-title>
 		<md-card-actions layout="row" layout-align="end center">
 			<md-button class="md-button md-raised md-primary" aria-label="Editar Perfil"
-				style="margin-right: 5px;" data-ui-sref="admin.perfis.editar({id: user.id})">
+				style="margin-right: 5px;" data-ui-sref="admin.perfis.edicao({slug: profile.slug})">
 				<md-icon md-font-library="material-icons">create</md-icon>
 				Editar Perfil
 			</md-button>

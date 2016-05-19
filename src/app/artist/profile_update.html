@@ -1,0 +1,272 @@
+<div ng-controller="ProfileUpdateController as vm" data-ng-init="vm.init()">
+	<div layout="column" ng-cloak class="md-inline-form">
+		<div layout="row" layout-padding  class="cover client_cover">
+			<div layout-align="left center" layout-padding flex>
+				<h1 hide-xs>Atualizar Perfil</h1>
+				<h3 hide-gt-sm hide-sm>Atualizar Perfil</h3>
+			</div>
+			<div layout-align="end" hide-xs>
+				<md-button class="md-raised md-fab md-primary button_cover" aria-label="Voltar"
+					title="Voltar" data-ui-sref="admin.perfis">
+					<md-icon md-font-library="material-icons">arrow_back</md-icon>
+				</md-button>
+			</div>
+
+			<div layout-align="end" hide-gt-sm hide-sm>
+				<md-button class="md-raised md-fab md-mini md-primary button_cover" aria-label="Voltar"
+					title="Voltar" data-ui-sref="admin.perfis">
+					<md-icon md-font-library="material-icons md-24">arrow_back</md-icon>
+				</md-button>
+			</div>
+		</div>
+		<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
+		<form name="profileForm" method="post" layout="row" layout-padding layout-align="center" data-ng-submit="vm.finishProfile()">
+			<md-card flex="80">
+				<md-button class="md-button md-raised md-primary" aria-label="Foto do Perfil" ngf-select>
+					<md-icon md-font-library="material-icons">cloud_upload</md-icon>
+					Inserir foto do Perfil
+				</md-button>
+				<md-input-container>
+					<label>Nome do Perfil</label>
+					<input ng-model="vm.profile.nome" name="title" type="text" data-md-minlength="10" data-md-maxlength="60" maxlength="60" required >
+					<div ng-messages="profileForm.title.$error" role="alert">
+						<div ng-message="required" class="my-message">O nome do perfil é obrigatório</div>
+						<div ng-message="md-minlength" class="my-message">O nome do perfil precisa ter no mínimo 10 caracteres</div>
+						<div ng-message="md-maxlength" class="my-message">O nome do perfil precisa ter no máximo 60 caracteres</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container>
+					<label>Histórico</label>
+					<textarea ng-model="vm.profile.historico" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+					<div ng-messages="profileForm.historic.$error" role="alert">
+						<div ng-message="required" class="my-message">O histórico é obrigatório</div>
+					</div>
+				</md-input-container>
+
+				<md-tabs md-dynamic-height md-border-bottom>
+					<md-tab label="Arquivos">
+						<md-content layout-align="center"class="md-padding">
+							<div ngf-select="vm.uploadFiles($files, $invalidFiles, 'file')" ngf-drop="vm.uploadFiles($files, $invalidFiles, 'file')" ngf-accept="vm.acceptFiles" ngf-pattern="vm.acceptFiles"
+								ngf-min-size="10B" ngf-max-size="25MB" ngf-max-total-size="100MB"
+								ngf-multiple="true" ngf-allow-dir="true" class="drop-box" data-ng-click="vm.errorFiles = []">
+								<h4 class="md-display-1" hide-xs>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
+								<h4 hide-gt-sm hide-sm>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
+							</div>
+							<div data-ng-repeat="attachment in vm.errorFiles">
+								<p ng-if="attachment.$error == 'minSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									O arquivo {{attachment.name}} é muito grande. O máximo é de <strong>25MB</strong>.
+								</p>
+								<p ng-if="attachment.$error == 'maxSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									O arquivo {{attachment.name}} é muito grande. O máximo é de <strong>25MB</strong>.
+								</p>
+								<p ng-if="attachment.$error == 'maxTotalSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									Você excedeu o máximo para esse perfil, que é de <strong>100MB</strong>.
+								</p>
+							</div>
+
+							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.file.length > 0">
+								<md-card ng-repeat="attachment in vm.portfolio.file" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">
+												<md-input-container class="md-block" flex-gt-sm>
+													<label>Nome do Arquivo</label>
+													<input ng-model="attachment.filename" name="filename" type="text"
+													data-md-minlength="10" data-md-maxlength="50" maxlength="50" required>
+													<div ng-messages="profileForm.filename.$error" role="alert">
+														<div ng-message="required" class="my-message">O nome do arquivo é obrigatório</div>
+														<div ng-message="md-minlength" class="my-message">O mínimo é de 10 caracteres</div>
+													</div>
+												</md-input-container>
+											</span>
+											<span class="md-subhead"><strong>Arquivo: </strong>{{ attachment.name }}</span>
+											<span class="md-subhead"><strong>Tamanho:</strong> {{ attachment.size | prettyBytes }}</span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<md-icon class="md-48">attach_file</md-icon>
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFileToUpload(attachment, 'file')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+							</div>
+						</md-content>
+					</md-tab>
+					<md-tab label="Áudio">
+						<md-content layout-align="center" class="md-padding">
+							<div ngf-select="vm.uploadFiles($files, $invalidFiles, 'audio')" ngf-drop="vm.uploadFiles($files, $invalidFiles, 'audio')"
+								ngf-accept="vm.acceptAudio" ngf-pattern="vm.acceptAudio"
+								ngf-min-size="10B" ngf-max-size="25MB" ngf-max-total-size="100MB"
+								ngf-multiple="true" ngf-allow-dir="true" class="drop-box" data-ng-click="vm.errorFiles = []">
+								<h4 class="md-display-1" hide-xs>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
+								<h4 hide-gt-sm hide-sm>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
+							</div>
+							<div data-ng-repeat="attachment in vm.errorFiles">
+								<p ng-if="attachment.$error == 'minSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									O arquivo {{attachment.name}} é muito grande. O máximo é de <strong>25MB</strong>.
+								</p>
+								<p ng-if="attachment.$error == 'maxSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									O arquivo {{attachment.name}} é muito grande. O máximo é de <strong>25MB</strong>.
+								</p>
+								<p ng-if="attachment.$error == 'maxTotalSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									Você excedeu o máximo para esse perfil, que é de <strong>100MB</strong>.
+								</p>
+							</div>
+
+							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.audio.length > 0">
+								<md-card ng-repeat="attachment in vm.portfolio.audio" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">
+												<md-input-container class="md-block" flex-gt-sm>
+													<label>Nome do Áudio</label>
+													<input ng-model="attachment.filename" name="filename" type="text"
+													data-md-minlength="10" data-md-maxlength="50" maxlength="50" required>
+													<div ng-messages="profileForm.filename.$error" role="alert">
+														<div ng-message="required" class="my-message">O nome do áudio é obrigatório</div>
+														<div ng-message="md-minlength" class="my-message">O mínimo é de 10 caracteres</div>
+													</div>
+												</md-input-container>
+											</span>
+											<span class="md-subhead"><strong>Arquivo: </strong>{{ attachment.name }}</span>
+											<span class="md-subhead"><strong>Tamanho:</strong> {{ attachment.size | prettyBytes }}</span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<md-icon class="md-48">audiotrack</md-icon>
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFileToUpload(attachment, 'audio')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+							</div>
+						</md-content>
+					</md-tab>
+					<md-tab label="Imagem">
+						<md-content layout-align="center"class="md-padding">
+							<div ngf-select="vm.uploadFiles($files, $invalidFiles, 'image')" ngf-drop="vm.uploadFiles($files, $invalidFiles, 'image')"
+								ngf-accept="vm.acceptImage" ngf-pattern="vm.acceptImage"
+								ngf-min-size="10B" ngf-max-size="25MB" ngf-max-total-size="100MB"
+								ngf-multiple="true" ngf-allow-dir="true" class="drop-box" data-ng-click="vm.errorFiles = []">
+								<h4 class="md-display-1" hide-xs>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
+								<h4 hide-gt-sm hide-sm>Selecione seus arquivos clicando nessa caixa ou arraste aqui</h4>
+							</div>
+							<div data-ng-repeat="attachment in vm.errorFiles">
+								<p ng-if="attachment.$error == 'minSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									O arquivo {{attachment.name}} é muito grande. O máximo é de <strong>25MB</strong>.
+								</p>
+								<p ng-if="attachment.$error == 'maxSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									O arquivo {{attachment.name}} é muito grande. O máximo é de <strong>25MB</strong>.
+								</p>
+								<p ng-if="attachment.$error == 'maxTotalSize'" class="alert alert-warning">
+									<md-icon>warning</md-icon>
+									Você excedeu o máximo para esse perfil, que é de <strong>100MB</strong>.
+								</p>
+							</div>
+
+							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.image.length > 0">
+								<md-card ng-repeat="attachment in vm.portfolio.image" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">
+												<md-input-container class="md-block" flex-gt-sm>
+													<label>Descrição da Imagem</label>
+													<input ng-model="attachment.description" name="filename" type="text"
+													data-md-minlength="10" data-md-maxlength="50" maxlength="50" required>
+													<div ng-messages="profileForm.filename.$error" role="alert">
+														<div ng-message="required" class="my-message">A descrição da imagem é obrigatória</div>
+														<div ng-message="md-minlength" class="my-message">O mínimo é de 10 caracteres</div>
+													</div>
+												</md-input-container>
+											</span>
+											<span class="md-subhead"><strong>Imagem: </strong>{{ attachment.name }}</span>
+											<span class="md-subhead"><strong>Tamanho:</strong> {{ attachment.size | prettyBytes }}</span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<img ngf-src="attachment" class="img_preview_card" alt="" width="48" height="48">
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFileToUpload(attachment, 'image')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+							</div>
+						</md-content>
+					</md-tab>
+					<md-tab label="Vídeo">
+						<md-content layout-padding layout="row">
+							<md-input-container flex="40">
+								<label>Nome do Vídeo</label>
+								<input ng-model="vm.portfolio_video.title" name="video" type="text" data-md-minlength="10" data-md-maxlength="100" maxlength="100">
+								<div ng-messages="profileForm.video.$error" role="alert">
+									<div ng-message="required" class="my-message">O nome do vídeo é obrigatório</div>
+									<div ng-message="md-minlength" class="my-message">O nome do vídeo precisa ter no mínimo 10 caracteres</div>
+									<div ng-message="md-maxlength" class="my-message">O nome do vídeo precisa ter no máximo 100 caracteres</div>
+								</div>
+							</md-input-container>
+							<md-input-container flex="60">
+								<label>Endereço URL do Vídeo</label>
+								<input ng-model="vm.portfolio_video.url" name="video" type="text" data-md-minlength="10">
+								<div ng-messages="profileForm.video.$error" role="alert">
+									<div ng-message="required" class="my-message">O endereço do vídeo é obrigatório</div>
+								</div>
+							</md-input-container>
+
+							<div layout="row" layout-align="center">
+								<md-button class="md-raised md-accent" aria-label="Adicionar Vídeo"
+									data-ng-click="vm.addVideo()" title="Adicionar Vídeo">
+									<md-icon>add</md-icon>
+									<span hide-xs>Inserir Vídeo</span>
+									<span hide-gt-sm hide-sm>Inserir Vídeo</span>
+								</md-button>
+							</div>
+
+							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.video.length > 0">
+								<md-card ng-repeat="attachment in vm.portfolio.video" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">{{attachment.title}}</span>
+											<span class="md-subhead"><strong>URL: </strong><a href="{{ attachment.url }}">{{ attachment.url }}</a></span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<md-icon class="md-48">videocam</md-icon>
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFileToUpload(attachment, 'video')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+							</div>
+						</md-content>
+					</md-tab>
+				</md-tabs>
+
+				<div layout="row" layout-align="center">
+					<md-button class="md-raised md-accent" aria-label="Adicionar Portfólio" data-ng-disabled="profileForm.$invalid"
+						data-ng-click="vm.createProfile()" data-ng-hide="vm.enablePortfolio" title="Adicionar Portfólio">
+						<md-icon>add</md-icon>
+						<span hide-xs>Inserir Portfólio</span>
+						<span hide-gt-sm hide-sm>Inserir Portfólio</span>
+					</md-button>
+					<md-button class="md-raised md-accent" aria-label="Salvar Projeto" type="submit"
+						title="Salvar Projeto" data-ng-show="vm.enablePortfolio">
+						<md-icon>save</md-icon>
+						<span hide-xs>Salvar Perfil</span>
+						<span hide-gt-sm hide-sm>Salvar</span>
+					</md-button>
+				</div>
+			</md-card>
+		</form>
+	</div>
+
+</div>

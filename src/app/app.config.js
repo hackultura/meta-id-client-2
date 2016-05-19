@@ -121,7 +121,21 @@
 					}
 				},
 				data: {
-					title: 'Meus Perfis'
+					title: 'Novo Perfil'
+				}
+			})
+			.state('admin.perfis.edicao', {
+				parent: 'admin',
+				url: '/artista/perfis/:slug/editar',
+				authenticate: true,
+				admin: false,
+				views: {
+					'content@admin': {
+						templateUrl: 'artist/profile_update.html'
+					}
+				},
+				data: {
+					title: 'Atualizar Perfil'
 				}
 			})
 			.state('admin.documentos', {
