@@ -1,19 +1,17 @@
 (function() {
   'use strict';
 
-  angular
-  .module('metaidApp')
+  angular .module('metaidApp')
   .controller('ProfileController', ProfileController)
   .controller('ProfileNewController', ProfileNewController)
-  .controller('ProfileUpdateController', ProfileUpdateController);
+  .controller('ProfileUpdateController', ProfileUpdateController)
+  .controller('ProfileDeleteController', ProfileDeleteController);
 
   ProfileController.$inject = [
     '$mdDialog',
     'UserService',
     'ProfileService',
-    'AlertService',
-    'PROPOSAL_LIMIT',
-    'PROPOSAL_STATUS'
+    'AlertService'
   ];
   ProfileNewController.$inject = [
     '$state',
@@ -34,19 +32,23 @@
     'UtilsService',
     'UserService'
   ];
+  ProfileDeleteController.$inject = [
+    '$mdDialog',
+    '$state',
+    'ProfileService'
+  ];
 
   /* @ngInject */
-  function ProfileController($mdDialog, UserService, ProfileService,
-                              AlertService, PROPOSAL_LIMIT, PROPOSAL_STATUS) {
+  function ProfileController($mdDialog, UserService, ProfileService, AlertService) {
     var vm = this;
     vm.profiles = [];
+    vm.profileSelected = {};
 
     vm.errors = [];
 
     // Functions
     vm.init = init;
     vm.deleteDialog = deleteDialog;
-    vm.cancelDialog = cancelDialog;
 
     function init() {
       listProfiles();
@@ -61,35 +63,20 @@
       });
     }
 
-    function deleteDialog(event, number) {
-      ProfileService.getProposal(number).then(function(response){
-        ProfileService.setProposalSelected(response.data);
+    function deleteDialog(event, profile) {
+      ProfileService.getProfile(profile.slug).then(function(response) {
+        ProfileService.setProfile(response.data);
       });
-      $mdDialog.show({
-        controller: ProposalDeleteController,
-        controllerAs: 'vm',
-        templateUrl: 'proposal/proposal_delete.tmpl.html',
-        parent: angular.element(document.body),
-        targetEvent: event,
-        clickOutsideToClose: false
-      }).then(function() {
-        listProposal();
-      });
-    }
 
-    function cancelDialog(event, number) {
-      ProfileService.getProposal(number).then(function(response){
-        ProfileService.setProposalSelected(response.data);
-      });
       $mdDialog.show({
-        controller: ProposalCancelController,
+        controller: ProfileDeleteController,
         controllerAs: 'vm',
-        templateUrl: 'proposal/proposal_cancel.tmpl.html',
+        templateUrl: 'artist/profile_delete.tmpl.html',
         parent: angular.element(document.body),
         targetEvent: event,
         clickOutsideToClose: false
       }).then(function() {
-        listProposal();
+        listProfiles();
       });
     }
   }
@@ -173,6 +160,19 @@
       vm.portfolio['audio'].forEach(function(file) {
         uploadDocuments(vm.profile, file, 'audio');
       });
+
+      vm.portfolio['video'].forEach(function(video) {
+        ProfileService.insertVideo(vm.profile, video).then(function(response) {
+          if (!ProfileService.isUploadInProgress()) {
+            $timeout(function() {
+              $mdDialog.hide();
+              $state.go('admin.perfis');
+            }, 300);
+          }
+        }, function(error) {
+          vm.errors = AlertService.message(error);
+        });
+      });
     }
 
     function uploadDocuments(profile, arquivo, type) {
@@ -182,6 +182,7 @@
         if (!ProfileService.isUploadInProgress()) {
           $timeout(function() {
             $mdDialog.hide();
+            $state.go('admin.perfis');
           }, 300);
         }
       }, function(response) {
@@ -249,7 +250,9 @@ function ProfileUpdateController($state, $stateParams, $timeout, $mdDialog, Prof
     function init() {
       ProfileService.getProfile($stateParams.slug).then(function(response) {
         vm.profile = response.data;
+        listPortfolio(response.data);
       });
+
     }
 
     function uploadFiles(files, errorFiles, type) {
@@ -263,7 +266,7 @@ function ProfileUpdateController($state, $stateParams, $timeout, $mdDialog, Prof
     }
 
     function addVideo() {
-      vm.portfolio.video.push(vm.portfolio_video);
+      vm.new_portfolio.video.push(vm.portfolio_video);
       vm.portfolio_video = {};
     }
 
@@ -275,22 +278,65 @@ function ProfileUpdateController($state, $stateParams, $timeout, $mdDialog, Prof
       });
     }
 
-    function removeItemPortfolio(item) {}
+    function removePortfolioItemList(attachment, type) {
+      vm.portfolio[type] = vm.portfolio[type].filter(function(item) {
+        if(item.$$hashKey !== attachment.$$hashKey) {
+          return item;
+        }
+      });
+    }
+
+    function removeItemPortfolio(item, type) {
+      ProfileService.removePortfolioItem(vm.profile, type, item).then(function() {
+        removePortfolioItemList(item, type);
+      }, function(error){
+        vm.errors = AlertService.message(error);
+      });
+    }
+
+    function listPortfolio(data) {
+        vm.portfolio.file = data.arquivos;
+        vm.portfolio.image = data.imagens;
+        vm.portfolio.audio = data.audios;
+        vm.portfolio.video = data.videos;
+    }
 
     function finishProfile() {
-      ProfileService.update(vm.profile).then(function(response) {
+      ProfileService.updateProfile(vm.profile).then(function(response) {
         showDialog();
-        vm.new_portfolio['file'].forEach(function(file) {
-          uploadDocuments(vm.profile, file, 'file');
-        });
 
-        vm.new_portfolio['image'].forEach(function(file) {
-          uploadDocuments(vm.profile, file, 'image');
-        });
+        if (vm.new_portfolio['file'].length > 0) {
+          vm.new_portfolio['file'].forEach(function(file) {
+            uploadDocuments(vm.profile, file, 'file');
+          });
+        } else if(vm.new_portfolio['image'].length > 0) {
+          vm.new_portfolio['image'].forEach(function(file) {
+            uploadDocuments(vm.profile, file, 'image');
+          });
+        } else if(vm.new_portfolio['audio'].length > 0) {
+          vm.new_portfolio['audio'].forEach(function(file) {
+            uploadDocuments(vm.profile, file, 'audio');
+          });
 
-        vm.new_portfolio['audio'].forEach(function(file) {
-          uploadDocuments(vm.profile, file, 'audio');
-        });
+        } else if(vm.new_portfolio['video'].length > 0) {
+          vm.new_portfolio['video'].forEach(function(video) {
+            ProfileService.insertVideo(vm.profile, video).then(function(response) {
+              if (!ProfileService.isUploadInProgress()) {
+                $timeout(function() {
+                  $mdDialog.hide();
+                  $state.go('admin.perfis');
+                }, 300);
+              }
+            }, function(error) {
+              vm.errors = AlertService.message(error);
+            });
+      });
+        } else {
+          $timeout(function() {
+            $mdDialog.hide();
+            $state.go('admin.perfis');
+          }, 300);
+        }
       });
     }
 
@@ -301,6 +347,7 @@ function ProfileUpdateController($state, $stateParams, $timeout, $mdDialog, Prof
         if (!ProfileService.isUploadInProgress()) {
           $timeout(function() {
             $mdDialog.hide();
+            $state.go('admin.perfis');
           }, 300);
         }
       }, function(response) {
@@ -324,7 +371,37 @@ function ProfileUpdateController($state, $stateParams, $timeout, $mdDialog, Prof
     }
 
     function prepareFiles(files, type) {
-      vm.portfolio[type] = vm.portfolio[type].concat(files);
+      vm.new_portfolio[type] = vm.new_portfolio[type].concat(files);
     }
   }
+
+	/* @ngInject */
+	function ProfileDeleteController($mdDialog, $state, ProfileService) {
+		var vm = this;
+
+		// Functions
+		vm.init = init;
+		vm.hide = hide;
+		vm.cancel = cancel;
+		vm.deleteProfile = deleteProfile;
+
+		vm.errors = [];
+
+		function init() { }
+
+		function hide() {
+			$mdDialog.hide();
+		}
+
+		function cancel() {
+			$mdDialog.cancel();
+		}
+
+		function deleteProfile() {
+      var profile = ProfileService.getProfileSelected();
+			ProfileService.removeProfile(profile).then(function() {
+				$mdDialog.hide();
+			});
+		}
+	}
 })();

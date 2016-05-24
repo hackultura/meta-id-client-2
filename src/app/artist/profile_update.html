@@ -22,10 +22,6 @@
 		<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
 		<form name="profileForm" method="post" layout="row" layout-padding layout-align="center" data-ng-submit="vm.finishProfile()">
 			<md-card flex="80">
-				<md-button class="md-button md-raised md-primary" aria-label="Foto do Perfil" ngf-select>
-					<md-icon md-font-library="material-icons">cloud_upload</md-icon>
-					Inserir foto do Perfil
-				</md-button>
 				<md-input-container>
 					<label>Nome do Perfil</label>
 					<input ng-model="vm.profile.nome" name="title" type="text" data-md-minlength="10" data-md-maxlength="60" maxlength="60" required >
@@ -68,8 +64,23 @@
 								</p>
 							</div>
 
-							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.file.length > 0">
+							<div layout-align="center" layout="row" layout-wrap layout-padding>
 								<md-card ng-repeat="attachment in vm.portfolio.file" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">{{attachment.nome}} </span>
+											<span class="md-subhead"><strong>Arquivo: </strong><a href="{{attachment.arquivo}}">{{ attachment.filename }}</a></span>
+											<span class="md-subhead"><strong>Tamanho:</strong> {{ attachment.size }}</span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<md-icon class="md-48">attach_file</md-icon>
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeItemPortfolio(attachment, 'file')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+								<md-card ng-repeat="attachment in vm.new_portfolio.file" flex="45" flex-gt-sm>
 									<md-card-title>
 										<md-card-title-text>
 											<span class="md-headline">
@@ -121,8 +132,23 @@
 								</p>
 							</div>
 
-							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.audio.length > 0">
+							<div layout-align="center" layout="row" layout-wrap layout-padding>
 								<md-card ng-repeat="attachment in vm.portfolio.audio" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">{{attachment.nome}} </span>
+											<span class="md-subhead"><strong>Arquivo: </strong><a href="{{attachment.audio}}">{{ attachment.filename }}</a></span>
+											<span class="md-subhead"><strong>Tamanho:</strong> {{ attachment.size }}</span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<md-icon class="md-48">attach_file</md-icon>
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeItemPortfolio(attachment, 'audio')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+								<md-card ng-repeat="attachment in vm.new_portfolio.audio" flex="45" flex-gt-sm>
 									<md-card-title>
 										<md-card-title-text>
 											<span class="md-headline">
@@ -174,8 +200,23 @@
 								</p>
 							</div>
 
-							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.image.length > 0">
+							<div layout-align="center" layout="row" layout-wrap layout-padding>
 								<md-card ng-repeat="attachment in vm.portfolio.image" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">{{attachment.descricao}} </span>
+											<span class="md-subhead"><strong>Arquivo: </strong><a href="{{attachment.imagem}}">{{ attachment.filename }}</a></span>
+											<span class="md-subhead"><strong>Tamanho:</strong> {{ attachment.size }}</span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<img ng-src="{{attachment.arquivo}}" class="img_preview_card" alt="" width="48" height="48">
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeItemPortfolio(attachment, 'image')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+								<md-card ng-repeat="attachment in vm.new_portfolio.image" flex="45" flex-gt-sm>
 									<md-card-title>
 										<md-card-title-text>
 											<span class="md-headline">
@@ -230,9 +271,25 @@
 									<span hide-gt-sm hide-sm>Inserir Vídeo</span>
 								</md-button>
 							</div>
+						</md-content>
 
-							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.video.length > 0">
+							<div layout-align="center" layout="row" layout-wrap layout-padding>
 								<md-card ng-repeat="attachment in vm.portfolio.video" flex="45" flex-gt-sm>
+									<md-card-title>
+										<md-card-title-text>
+											<span class="md-headline">{{attachment.nome}}</span>
+											<span class="md-subhead"><strong>URL: </strong><a href="{{ attachment.url }}">{{ attachment.url }}</a></span>
+											<span class="md-subhead"><strong>Plataforma: </strong>{{ attachment.plataforma }}</span>
+										</md-card-title-text>
+										<md-card-title-media>
+											<md-icon class="md-48">videocam</md-icon>
+										</md-card-title-media>
+									</md-card-title>
+									<md-card-actions layout="row" layout-align="end center">
+										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFileToUpload(attachment, 'video')">Remover</md-button>
+									</md-card-actions>
+								</md-card>
+								<md-card ng-repeat="attachment in vm.new_portfolio.video" flex="45" flex-gt-sm>
 									<md-card-title>
 										<md-card-title-text>
 											<span class="md-headline">{{attachment.title}}</span>
@@ -247,22 +304,15 @@
 									</md-card-actions>
 								</md-card>
 							</div>
-						</md-content>
 					</md-tab>
 				</md-tabs>
 
 				<div layout="row" layout-align="center">
-					<md-button class="md-raised md-accent" aria-label="Adicionar Portfólio" data-ng-disabled="profileForm.$invalid"
-						data-ng-click="vm.createProfile()" data-ng-hide="vm.enablePortfolio" title="Adicionar Portfólio">
-						<md-icon>add</md-icon>
-						<span hide-xs>Inserir Portfólio</span>
-						<span hide-gt-sm hide-sm>Inserir Portfólio</span>
-					</md-button>
 					<md-button class="md-raised md-accent" aria-label="Salvar Projeto" type="submit"
-						title="Salvar Projeto" data-ng-show="vm.enablePortfolio">
+						title="Salvar Projeto">
 						<md-icon>save</md-icon>
-						<span hide-xs>Salvar Perfil</span>
-						<span hide-gt-sm hide-sm>Salvar</span>
+						<span hide-xs>Atualizar Perfil</span>
+						<span hide-gt-sm hide-sm>Atualizar</span>
 					</md-button>
 				</div>
 			</md-card>

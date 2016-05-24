@@ -9,12 +9,16 @@
 
 	function ProfileService($http, Upload, API_URI_PREFIX) {
 		var vm = this;
+    var profileSelected = {};
 
 		var service = {
       listProfile: listProfile,
 			createProfile: createProfile,
       uploadPortfolio: uploadPortfolio,
+      insertVideo: insertVideo,
       getProfile: getProfile,
+      getProfileSelected: getProfileSelected,
+      setProfile: setProfile,
       updateProfile: updateProfile,
       removePortfolioItem: removePortfolioItem,
       removeProfile: removeProfile,
@@ -57,21 +61,38 @@
       });
     }
 
+    function insertVideo(profile, video) {
+      return $http.post(API_URI_PREFIX + '/perfis/' + profile.slug + '/portfolios/video', {
+        perfil: profile.id_pub,
+        nome: video.title,
+        url: video.url,
+        plataforma: new URL(video.url).hostname
+      });
+    }
+
     function getProfile(slug) {
       return $http.get(API_URI_PREFIX + '/perfis/' + slug);
     }
 
+    function setProfile(profile) {
+      profileSelected = profile;
+    }
+
+    function getProfileSelected() {
+      return profileSelected;
+    }
+
     function updateProfile(profile) {
-      return $http.put(API_URI_PREFIX + '/perfis/' + profile.slug, profile);
+      return $http.put(API_URI_PREFIX + '/perfis/' + profile.slug + '/', profile);
     }
 
     function removePortfolioItem(profile, type, item) {
-      var url = API_URI_PREFIX + '/perfis/' + profile.slug + '/portfolios/' + item + '/' + item.id_pub;
+      var url = API_URI_PREFIX + '/perfis/' + profile.slug + '/portfolios/' + type + '/' + item.id_pub + '/';
       return $http.delete(url);
     }
 
     function removeProfile(profile) {
-      return $http.delete(API_URI_PREFIX + '/perfis/' + profile.slug);
+      return $http.delete(API_URI_PREFIX + '/perfis/' + profile.slug + '/');
     }
 
     function isUploadInProgress () {

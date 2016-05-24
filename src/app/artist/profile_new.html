@@ -22,10 +22,6 @@
 		<p ng-repeat="(name, errs) in vm.errors" class="alert alert-danger"><strong>Erro! </strong>: {{ errs }}</p>
 		<form name="profileForm" method="post" layout="row" layout-padding layout-align="center" data-ng-submit="vm.finishProfile()">
 			<md-card flex="80">
-				<md-button class="md-button md-raised md-primary" aria-label="Foto do Perfil" ngf-select>
-					<md-icon md-font-library="material-icons">cloud_upload</md-icon>
-					Inserir foto do Perfil
-				</md-button>
 				<md-input-container>
 					<label>Nome do Perfil</label>
 					<input ng-model="vm.profile.nome" name="title" type="text" data-md-minlength="10" data-md-maxlength="60" maxlength="60" required >
@@ -231,23 +227,24 @@
 								</md-button>
 							</div>
 
-							<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.video.length > 0">
-								<md-card ng-repeat="attachment in vm.portfolio.video" flex="45" flex-gt-sm>
-									<md-card-title>
-										<md-card-title-text>
-											<span class="md-headline">{{attachment.title}}</span>
-											<span class="md-subhead"><strong>URL: </strong><a href="{{ attachment.url }}">{{ attachment.url }}</a></span>
-										</md-card-title-text>
-										<md-card-title-media>
-											<md-icon class="md-48">videocam</md-icon>
-										</md-card-title-media>
-									</md-card-title>
-									<md-card-actions layout="row" layout-align="end center">
-										<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFileToUpload(attachment, 'video')">Remover</md-button>
-									</md-card-actions>
-								</md-card>
-							</div>
 						</md-content>
+
+						<div layout-align="center" layout="row" layout-wrap layout-padding data-ng-show="vm.portfolio.video.length > 0">
+							<md-card ng-repeat="attachment in vm.portfolio.video" flex="45" flex-gt-sm>
+								<md-card-title>
+									<md-card-title-text>
+										<span class="md-headline">{{attachment.title}}</span>
+										<span class="md-subhead"><strong>URL: </strong><a href="{{ attachment.url }}">{{ attachment.url }}</a></span>
+									</md-card-title-text>
+									<md-card-title-media>
+										<md-icon class="md-48">videocam</md-icon>
+									</md-card-title-media>
+								</md-card-title>
+								<md-card-actions layout="row" layout-align="end center">
+									<md-button class="md-secondary md-button md-raised md-warn" ng-click="vm.removeFileToUpload(attachment, 'video')">Remover</md-button>
+								</md-card-actions>
+							</md-card>
+						</div>
 					</md-tab>
 				</md-tabs>
 
